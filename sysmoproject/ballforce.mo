@@ -1,0 +1,30 @@
+model ballforce
+  Modelica.Blocks.Interfaces.RealInput u annotation(Placement(visible = true, transformation(origin = {-120.024, 60.536}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-90, 67.641}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+  Modelica.Blocks.Sources.Constant const(k = g * m) annotation(Placement(visible = true, transformation(origin = {-40.024, 76.023}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Math.Sin sin annotation(Placement(visible = true, transformation(origin = {-40.024, 46.023}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Math.Product product1 annotation(Placement(visible = true, transformation(origin = {-0.024, 60.536}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Mechanics.Translational.Sources.Force force annotation(Placement(visible = true, transformation(origin = {49.976, 65.536}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Mechanics.Translational.Components.Mass mass annotation(Placement(visible = true, transformation(origin = {84.976, 65.536}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Mechanics.Translational.Interfaces.Flange_b flange_b annotation(Placement(visible = true, transformation(origin = {113.341, 65.536}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {92.719, 68.332}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealInput u1 annotation(Placement(visible = true, transformation(origin = {-118.365, -40.487}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-87.825, -70}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+  Modelica.Blocks.Sources.Constant const1(k = g * m) annotation(Placement(visible = true, transformation(origin = {-36.683, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Math.Sin sin1 annotation(Placement(visible = true, transformation(origin = {-36.683, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Math.Product product2 annotation(Placement(visible = true, transformation(origin = {1.635, -40.487}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Mechanics.Translational.Sources.Force force1 annotation(Placement(visible = true, transformation(origin = {51.635, -35.487}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Mechanics.Translational.Components.Mass mass1 annotation(Placement(visible = true, transformation(origin = {86.635, -35.487}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Mechanics.Translational.Interfaces.Flange_b flange_b1 annotation(Placement(visible = true, transformation(origin = {115, -35.487}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {96.232, -73.571}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+equation
+  connect(mass1.flange_b, flange_b1) annotation(Line(visible = true, origin = {105.817, -35.487}, points = {{-9.182, 0}, {9.183, 0}}, color = {0, 127, 0}));
+  connect(product2.y, force1.f) annotation(Line(visible = true, origin = {31.385, -37.987}, points = {{-18.75, -2.5}, {5.25, -2.5}, {5.25, 2.5}, {8.25, 2.5}}, color = {0, 0, 127}));
+  connect(force1.flange, mass1.flange_a) annotation(Line(visible = true, origin = {69.135, -35.487}, points = {{-7.5, 0}, {7.5, 0}}, color = {0, 127, 0}));
+  connect(sin1.y, product2.u2) annotation(Line(visible = true, origin = {-15.695, -53.244}, points = {{-9.988, -6.756}, {2.329, -6.756}, {2.329, 6.756}, {5.33, 6.757}}, color = {0, 0, 127}));
+  connect(const1.y, product2.u1) annotation(Line(visible = true, origin = {-15.695, -32.244}, points = {{-9.988, 2.244}, {2.329, 2.244}, {2.329, -2.244}, {5.33, -2.243}}, color = {0, 0, 127}));
+  connect(u1, sin1.u) annotation(Line(visible = true, origin = {-67.603, -50.244}, points = {{-50.762, 9.757}, {15.921, 9.756}, {15.921, -9.756}, {18.92, -9.756}}, color = {0, 0, 127}));
+  connect(mass.flange_b, flange_b) annotation(Line(visible = true, origin = {104.159, 65.536}, points = {{-9.183, 0}, {9.182, 0}}, color = {0, 127, 0}));
+  connect(product1.y, force.f) annotation(Line(visible = true, origin = {29.726, 63.036}, points = {{-18.75, -2.5}, {5.25, -2.5}, {5.25, 2.5}, {8.25, 2.5}}, color = {0, 0, 127}));
+  connect(force.flange, mass.flange_a) annotation(Line(visible = true, origin = {67.476, 65.536}, points = {{-7.5, 0}, {7.5, 0}}, color = {0, 127, 0}));
+  connect(sin.y, product1.u2) annotation(Line(visible = true, origin = {-17.774, 50.279}, points = {{-11.25, -4.256}, {2.75, -4.256}, {2.75, 4.256}, {5.75, 4.256}}, color = {0, 0, 127}));
+  connect(const.y, product1.u1) annotation(Line(visible = true, origin = {-17.774, 71.279}, points = {{-11.25, 4.744}, {2.75, 4.744}, {2.75, -4.744}, {5.75, -4.744}}, color = {0, 0, 127}));
+  connect(u, sin.u) annotation(Line(visible = true, origin = {-70.524, 53.279}, points = {{-49.5, 7.257}, {15.5, 7.256}, {15.5, -7.256}, {18.5, -7.256}}, color = {0, 0, 127}));
+  annotation(Diagram(coordinateSystem(extent = {{-148.5, -105}, {148.5, 105}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})));
+end ballforce;
