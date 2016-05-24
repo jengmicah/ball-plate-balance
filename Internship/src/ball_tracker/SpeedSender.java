@@ -11,7 +11,7 @@ import java.net.UnknownHostException;
  * This sends packets of data with the x-coordinate of the object being tracked to the indicated server port, which
  * is intended to be a userInput into SystemModeler
  * 
- * "C:\Program Files\Java\jre1.8.0_91\bin\javaw.exe" -Djava.library.path=C:\lib\opencv\build\java;C:\lib\opencv\build\java\x64;C:\lib\opencv\build\java\x64 -Dfile.encoding=Cp1252 -classpath C:\Projects\Arturo\InternshipSoftware\bin;C:\lib\opencv\build\java\opencv-310.jar ball_tracker.SpeedSender 127.0.0.1 56953
+ * "C:\Program Files\Java\jre1.8.0_91\bin\javaw.exe" -Djava.library.path=C:\lib\opencv\build\java;C:\lib\opencv\build\java\x64;C:\lib\opencv\build\java\x64 -Dfile.encoding=Cp1252 -classpath C:\Projects\Arturo\Internship\bin;C:\lib\opencv\build\java\opencv-310.jar ball_tracker.SpeedSender 127.0.0.1 56953
  */
 
 public class SpeedSender {

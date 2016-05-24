@@ -22,5 +22,5 @@ equation
   connect(sine.y, position.phi_ref) annotation(Line(visible = true, origin = {-90.959, 13.509}, points = {{-5.877, 1.491}, {0.959, 1.491}, {0.959, -1.491}, {3.959, -1.491}}, color = {0, 0, 127}));
   connect(revolute1.frame_b, bodyBox1.frame_a) annotation(Line(visible = true, origin = {-29.112, -31.23}, points = {{-20.888, 1.23}, {5.887, 1.23}, {5.887, -1.23}, {9.112, -1.23}}));
   connect(fixed.frame_b, revolute1.frame_a) annotation(Line(visible = true, origin = {-98.494, -30}, points = {{-28.494, 0}, {28.494, -0}}));
-  annotation(Diagram(coordinateSystem(extent = {{-148.5, -105}, {148.5, 105}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})));
+  annotation(experiment(StopTime = 60.0, Interval = 0.01, __Wolfram_SynchronizeWithRealTime = true), Diagram(coordinateSystem(extent = {{-148.5, -105}, {148.5, 105}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})));
 end test2;
