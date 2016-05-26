@@ -69,7 +69,59 @@ package LabyrinthSolver
     annotation(experiment(__Wolfram_SynchronizeWithRealTime = false), Diagram(coordinateSystem(extent = {{-148.5, -105}, {148.5, 105}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})));
   end Platform;
 
-  model test5
+  model onedofbalance
+    BallAndBeam.Components.Hardware hardware(arduino.Port = "COM4", servo.Pin = 9) annotation(Placement(visible = true, transformation(origin = {92.982, -15}, extent = {{-30, -30}, {30, 30}}, rotation = 0)));
+    Modelica.Blocks.Continuous.Der der1 annotation(Placement(visible = true, transformation(origin = {-73.481, 56.996}, extent = {{-10, -10}, {10, 10}}, rotation = -360)));
+    Modelica.Blocks.Math.Gain p(k = 0.352277) annotation(Placement(visible = true, transformation(origin = {-33.481, 97.065}, extent = {{-10, -10}, {10, 10}}, rotation = -360)));
+    Modelica.Blocks.Math.Gain d(k = 0.295788) annotation(Placement(visible = true, transformation(origin = {9.021, 57.007}, extent = {{-10, -10}, {10, 10}}, rotation = -360)));
+    Modelica.Blocks.Math.Add add annotation(Placement(visible = true, transformation(origin = {46.519, 77.065}, extent = {{-10, -10}, {10, 10}}, rotation = -360)));
+    Modelica.Blocks.Continuous.Filter filter1(f_cut = 10) annotation(Placement(visible = true, transformation(origin = {-35.979, 57.065}, extent = {{-10, -10}, {10, 10}}, rotation = -360)));
+    Modelica.Blocks.Math.Feedback feedback annotation(Placement(visible = true, transformation(origin = {-45, -32.935}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Sources.Pulse pulse(offset = -0.05, amplitude = 0.07, startTime = 5, width = 50, period = 10, nperiod = -1) annotation(Placement(visible = true, transformation(origin = {-85, -32.935}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  equation
+    connect(add.y, hardware.servo_angle_input) annotation(Line(visible = true, origin = {62.75, 51.033}, points = {{-5.231, 26.033}, {0.731, 26.033}, {0.731, -26.033}, {0.232, -66.033}}, color = {0, 0, 127}));
+    connect(der1.u, p.u) annotation(Line(visible = true, origin = {-79.481, 77.031}, points = {{-6, -20.035}, {-14, -20.034}, {-14, 20.034}, {34, 20.034}}, color = {0, 0, 127}));
+    connect(feedback.y, der1.u) annotation(Line(visible = true, origin = {-55.5, 0.375}, points = {{19.5, -33.31}, {30.5, -33.31}, {30.5, 6.69}, {-29.5, 6.69}, {-29.5, 26.621}, {-29.981, 56.621}}, color = {0, 0, 127}));
+    connect(pulse.y, feedback.u1) annotation(Line(visible = true, origin = {-63.5, -32.935}, points = {{-10.5, 0}, {10.5, 0}}, color = {0, 0, 127}));
+    connect(p.y, add.u1) annotation(Line(visible = true, origin = {18.769, 90.065}, points = {{-41.25, 7}, {12.75, 7}, {12.75, -7}, {15.75, -7}}, color = {0, 0, 127}));
+    connect(d.y, add.u2) annotation(Line(visible = true, origin = {29.395, 64.036}, points = {{-9.374, -7.029}, {2.124, -7.029}, {2.124, 7.029}, {5.124, 7.029}}, color = {0, 0, 127}));
+    connect(der1.y, filter1.u) annotation(Line(visible = true, origin = {-53.105, 57.031}, points = {{-9.377, -0.035}, {2.125, -0.035}, {2.125, 0.035}, {5.125, 0.035}}, color = {0, 0, 127}));
+    connect(filter1.y, d.u) annotation(Line(visible = true, origin = {-9.979, 57.036}, points = {{-15, 0.029}, {4, 0.029}, {4, -0.029}, {7, -0.029}}, color = {0, 0, 127}));
+    connect(hardware.rightSensorValueInMeter, feedback.u2) annotation(Line(visible = true, origin = {57.004, -34.587}, points = {{65.978, 19.587}, {69.015, 19.587}, {69.015, -16.413}, {-102.004, -16.413}, {-102.004, -6.348}}, color = {0, 0, 127}));
+    annotation(Diagram(coordinateSystem(extent = {{-148.5, -105}, {148.5, 105}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})));
+  end onedofbalance;
+
+  model hardware
+    Modelica.Blocks.Nonlinear.Limiter limiter(uMin = 0.3, uMax = 0.7) annotation(Placement(visible = true, transformation(origin = {-40, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Interfaces.RealInput servo_angle_input annotation(Placement(visible = true, transformation(origin = {-170, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-100, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+    ModelPlug.Pins.Servo servo(Pin = 9) annotation(Placement(visible = true, transformation(origin = {-2.175, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    ModelPlug.Pins.AnalogInput rightSensorAnalogInput(Pin = 14, MinValue = 0, MaxValue = 1) annotation(Placement(visible = true, transformation(origin = {0, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Interfaces.RealOutput rightSensorValueInMeter annotation(Placement(visible = true, transformation(origin = {170, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Math.Add add(k2 = +1) annotation(Placement(visible = true, transformation(origin = {-80, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Sources.Constant const(k = ServoDeviation) annotation(Placement(visible = true, transformation(origin = {-120, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Continuous.Filter inputFilter(f_cut = 10, order = 1) annotation(Placement(visible = true, transformation(origin = {-120, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Math.Sqrt sqrt1 annotation(Placement(visible = true, transformation(origin = {60, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Continuous.Filter outputFilter(f_cut = 3, order = 1) annotation(Placement(visible = true, transformation(origin = {140, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Math.Add add1(k2 = -1) annotation(Placement(visible = true, transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Sources.Constant const1(k = SensorDeviation) annotation(Placement(visible = true, transformation(origin = {60, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    ModelPlug.Boards.CustomFirmata arduino(Port = port, UpdatePeriod = 0.001, BaudRate = 57600) annotation(Placement(visible = true, transformation(origin = {0, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  equation
+    connect(const.y, add.u2) annotation(Line(visible = true, origin = {-97.75, -23}, points = {{-11.25, -17}, {2.75, -17}, {2.75, 17}, {5.75, 17}}, color = {0, 0, 127}));
+    connect(rightSensorAnalogInput.y, sqrt1.u) annotation(Line(visible = true, origin = {29, -40}, points = {{-19, 0}, {19, 0}}, color = {0, 0, 127}));
+    connect(outputFilter.y, rightSensorValueInMeter) annotation(Line(visible = true, origin = {160.5, 0}, points = {{-9.5, 0}, {9.5, 0}}, color = {0, 0, 127}));
+    connect(add1.y, outputFilter.u) annotation(Line(visible = true, origin = {119.5, 0}, points = {{-8.5, 0}, {8.5, 0}}, color = {0, 0, 127}));
+    connect(limiter.y, servo.u) annotation(Line(visible = true, origin = {-19.75, 10}, points = {{-9.25, -10}, {-0.25, -10}, {-0.25, 30}, {7.575, 30}}, color = {0, 0, 127}));
+    connect(add.y, limiter.u) annotation(Line(visible = true, origin = {-60.5, 0}, points = {{-8.5, 0}, {8.5, 0}}, color = {0, 0, 127}));
+    connect(inputFilter.y, add.u1) annotation(Line(visible = true, origin = {-97.75, 23}, points = {{-11.25, 17}, {2.75, 17}, {2.75, -17}, {5.75, -17}}, color = {0, 0, 127}));
+    connect(inputFilter.u, servo_angle_input) annotation(Line(visible = true, origin = {-145.5, 20}, points = {{13.5, 20}, {5.5, 20}, {5.5, -20}, {-24.5, -20}}, color = {0, 0, 127}));
+    connect(const1.y, add1.u1) annotation(Line(visible = true, origin = {79.75, 23}, points = {{-8.75, 17}, {0.25, 17}, {0.25, -17}, {8.25, -17}}, color = {0, 0, 127}));
+    connect(sqrt1.y, add1.u2) annotation(Line(visible = true, origin = {79.75, -23}, points = {{-8.75, -17}, {0.25, -17}, {0.25, 17}, {8.25, 17}}, color = {0, 0, 127}));
+    connect(arduino.boardConnector, rightSensorAnalogInput.pinConnector) annotation(Line(visible = true, origin = {-10, -24}, points = {{10, 24}, {10, 4}, {-10, 4}, {-10, -16}, {0, -16}}));
+    connect(servo.pinConnector, arduino.boardConnector) annotation(Line(visible = true, origin = {9.565, 24}, points = {{-1.74, 16}, {10.435, 16}, {10.435, -4}, {-9.565, -4}, {-9.565, -24}}));
+    annotation(Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = true, initialScale = 0.1, grid = {10, 10}), graphics = {Rectangle(visible = true, fillColor = {0, 0, 255}, extent = {{-63.13, -63.973}, {63.13, 63.973}}), Text(visible = true, origin = {-3.644, -5}, extent = {{-53.644, -25}, {53.644, 25}}, textString = "Hardware")}), Diagram(coordinateSystem(extent = {{-191.637, -105}, {220, 105}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})));
+  end hardware;
+
+  model BallBalance
     BallAndBeam.Components.Hardware hardware(arduino.Port = "COM4", servo.Pin = 9) annotation(Placement(visible = true, transformation(origin = {-55, 10}, extent = {{-30, -30}, {30, 30}}, rotation = 0)));
     Modelica.Blocks.Continuous.Der der1 annotation(Placement(visible = true, transformation(origin = {-140, 58.061}, extent = {{-10, -10}, {10, 10}}, rotation = -360)));
     Modelica.Blocks.Math.Gain p(k = 0.352277) annotation(Placement(visible = true, transformation(origin = {-100, 98.13}, extent = {{-10, -10}, {10, 10}}, rotation = -360)));
@@ -87,6 +139,8 @@ package LabyrinthSolver
     Modelica.Blocks.Math.Feedback feedback1 annotation(Placement(visible = true, transformation(origin = {45, -5.87}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
     Modelica.Blocks.Sources.Pulse pulse1(offset = -0.05, amplitude = 0.07, startTime = 5, width = 50, period = 10, nperiod = -1) annotation(Placement(visible = true, transformation(origin = {5, -5.87}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   equation
+    connect(add1.y, hardware1.servo_angle_input) annotation(Line(visible = true, origin = {117.987, 47.083}, points = {{38.013, 27.047}, {41.013, 27.047}, {41.013, 14.035}, {-41.025, 14.035}, {-41.025, -41.083}, {-37.987, -41.083}}, color = {0, 0, 127}));
+    connect(add.y, hardware.servo_angle_input) annotation(Line(visible = true, origin = {-47.012, 51.083}, points = {{38.012, 27.047}, {41.012, 27.047}, {41.012, 14.035}, {-41.025, 14.035}, {-41.025, -41.083}, {-37.988, -41.083}}, color = {0, 0, 127}));
     connect(hardware1.rightSensorValueInMeter, feedback1.u2) annotation(Line(visible = true, origin = {103.215, -12.374}, points = {{36.785, 18.374}, {39.822, 18.374}, {39.822, -17.626}, {-58.215, -17.626}, {-58.215, -1.496}}, color = {0, 0, 127}));
     connect(filter2.y, d1.u) annotation(Line(visible = true, origin = {88.502, 54.101}, points = {{-15, 0.029}, {4, 0.029}, {4, -0.029}, {7, -0.029}}, color = {0, 0, 127}));
     connect(der2.y, filter2.u) annotation(Line(visible = true, origin = {45.377, 54.096}, points = {{-9.377, -0.035}, {2.126, -0.034}, {2.126, 0.035}, {5.125, 0.034}}, color = {0, 0, 127}));
@@ -103,7 +157,7 @@ package LabyrinthSolver
     connect(pulse.y, feedback.u1) annotation(Line(visible = true, origin = {-138.5, -1.87}, points = {{-10.5, 0}, {10.5, 0}}, color = {0, 0, 127}));
     connect(feedback.y, der1.u) annotation(Line(visible = true, origin = {-130.5, 31.44}, points = {{19.5, -33.31}, {30.5, -33.31}, {30.5, 6.69}, {-29.5, 6.69}, {-29.5, 26.621}, {-21.5, 26.621}}, color = {0, 0, 127}));
     connect(der1.u, p.u) annotation(Line(visible = true, origin = {-146, 78.096}, points = {{-6, -20.035}, {-14, -20.034}, {-14, 20.034}, {34, 20.034}}, color = {0, 0, 127}));
-    annotation(Diagram(coordinateSystem(extent = {{-148.5, -105}, {148.5, 105}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})));
-  end test5;
+    annotation(experiment(__Wolfram_SynchronizeWithRealTime = false), Diagram(coordinateSystem(extent = {{-148.5, -105}, {148.5, 105}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})));
+  end BallBalance;
   annotation(Diagram(coordinateSystem(extent = {{-148.5, -105}, {148.5, 105}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})));
 end LabyrinthSolver;
