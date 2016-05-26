@@ -6,49 +6,8 @@ package LabyrinthSolver
 
   model ball1
     ballforce ballforce1 annotation(Placement(visible = true, transformation(origin = {-45, 65}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-    Modelica.Mechanics.Translational.Components.MassWithStopAndFriction constraints(smax = 0.1375, smin = -0.1375, L = 0, m = 0, s.start = 0, s.fixed = true, F_prop = 0, F_Coulomb = 0, F_Stribeck = 0) annotation(Placement(visible = true, transformation(origin = {-6.772, 92.5}, extent = {{-10, -10}, {10, 10}}, rotation = -360)));
-    Modelica.Mechanics.MultiBody.Joints.Prismatic prismatic(useAxisFlange = true, animation = false, n = {1, 0, 0}, boxWidth = 0.01, boxHeight = 0.01) annotation(Placement(visible = true, transformation(origin = {-6.772, 52.5}, extent = {{-10, 10}, {10, -10}}, rotation = 180)));
-    Modelica.Mechanics.MultiBody.Parts.Body ballBody(m = 0, sphereDiameter = 0.04, sphereColor = {255, 255, 255}) annotation(Placement(visible = true, transformation(origin = {-46.772, 52.5}, extent = {{-10, -10}, {10, 10}}, rotation = -180)));
-    Modelica.Mechanics.Translational.Sensors.PositionSensor positionSensor annotation(Placement(visible = true, transformation(origin = {33.228, 92.5}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-    Modelica.Blocks.Interfaces.RealOutput x annotation(Placement(visible = true, transformation(origin = {73.228, 92.5}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {93.098, 74.848}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-    Modelica.Blocks.Interfaces.RealInput theta annotation(Placement(visible = true, transformation(origin = {-146.772, 92.5}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-80, 44.519}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
     BallAndBeam.Components.GravitationalPull rollingBall annotation(Placement(visible = true, transformation(origin = {-46.772, 92.5}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-    Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_a annotation(Placement(visible = true, transformation(origin = {-146.772, 13.5}, extent = {{-16, -16}, {16, 16}}, rotation = 0), iconTransformation(origin = {-30, 96}, extent = {{-16, -16}, {16, 16}}, rotation = -90)));
-    Modelica.Mechanics.MultiBody.Parts.FixedTranslation fixedTranslation(r = {0.0, 0.025, 0.015}, animation = false) annotation(Placement(visible = true, transformation(origin = {-46.772, 12.5}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-    Modelica.Blocks.Interfaces.RealOutput vx annotation(Placement(visible = true, transformation(origin = {73.228, 12.5}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {93.098, -52.103}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-    Modelica.Mechanics.Translational.Sensors.SpeedSensor speedSensor annotation(Placement(visible = true, transformation(origin = {33.228, 12.5}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-    Modelica.Mechanics.Translational.Components.MassWithStopAndFriction constraints1(smax = 0.1375, smin = -0.1375, L = 0, m = 0, s.start = 0, s.fixed = true, F_prop = 0, F_Coulomb = 0, F_Stribeck = 0) annotation(Placement(visible = true, transformation(origin = {-6.949, -12.5}, extent = {{-10, -10}, {10, 10}}, rotation = -360)));
-    Modelica.Mechanics.MultiBody.Joints.Prismatic prismatic1(useAxisFlange = true, animation = false, n = {1, 0, 0}, boxWidth = 0.01, boxHeight = 0.01) annotation(Placement(visible = true, transformation(origin = {-6.949, -52.5}, extent = {{-10, 10}, {10, -10}}, rotation = 180)));
-    Modelica.Mechanics.MultiBody.Parts.Body ballBody1(m = 0, sphereDiameter = 0.04, sphereColor = {255, 255, 255}) annotation(Placement(visible = true, transformation(origin = {-46.949, -52.5}, extent = {{-10, -10}, {10, 10}}, rotation = -180)));
-    Modelica.Mechanics.Translational.Sensors.PositionSensor positionSensor1 annotation(Placement(visible = true, transformation(origin = {33.051, -12.5}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-    Modelica.Blocks.Interfaces.RealOutput y annotation(Placement(visible = true, transformation(origin = {73.051, -12.5}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {93.505, 46.486}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-    Modelica.Blocks.Interfaces.RealInput theta1 annotation(Placement(visible = true, transformation(origin = {-147.598, -20}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-82.337, -72.19}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
     BallAndBeam.Components.GravitationalPull rollingBall1 annotation(Placement(visible = true, transformation(origin = {-46.949, -12.5}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-    Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_a1 annotation(Placement(visible = true, transformation(origin = {-146.949, -91.5}, extent = {{-16, -16}, {16, 16}}, rotation = 0), iconTransformation(origin = {34, 96}, extent = {{-16, -16}, {16, 16}}, rotation = -90)));
-    Modelica.Mechanics.MultiBody.Parts.FixedTranslation fixedTranslation1(r = {0.0, 0.025, 0.015}, animation = false) annotation(Placement(visible = true, transformation(origin = {-46.949, -92.5}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-    Modelica.Blocks.Interfaces.RealOutput vy annotation(Placement(visible = true, transformation(origin = {73.051, -92.5}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {94.196, -78.016}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-    Modelica.Mechanics.Translational.Sensors.SpeedSensor speedSensor1 annotation(Placement(visible = true, transformation(origin = {33.051, -92.5}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  equation
-    connect(frame_a1, fixedTranslation1.frame_a) annotation(Line(visible = true, origin = {-80.949, -92}, points = {{-66, 0.5}, {21, 0.5}, {21, -0.5}, {24, -0.5}}));
-    connect(fixedTranslation1.frame_b, prismatic1.frame_a) annotation(Line(visible = true, origin = {-5.443, -72.5}, points = {{-31.506, -20}, {11.506, -20}, {11.506, 20}, {8.494, 20}}));
-    connect(prismatic1.frame_b, ballBody1.frame_a) annotation(Line(visible = true, origin = {-26.949, -52.5}, points = {{10, 0}, {-10, 0}}));
-    connect(rollingBall1.flange_b1, constraints1.flange_a) annotation(Line(visible = true, origin = {-26.949, -12.5}, points = {{-10, 0}, {10, 0}}, color = {0, 127, 0}));
-    connect(constraints1.flange_b, positionSensor1.flange) annotation(Line(visible = true, origin = {13.051, -12.5}, points = {{-10, 0}, {10, 0}}, color = {0, 127, 0}));
-    connect(y, positionSensor1.s) annotation(Line(visible = true, origin = {58.551, -12.5}, points = {{14.5, 0}, {-14.5, 0}}, color = {0, 0, 127}));
-    connect(constraints1.flange_b, speedSensor1.flange) annotation(Line(visible = true, origin = {13.051, -52.5}, points = {{-10, 40}, {0, 40}, {0, -40}, {10, -40}}, color = {0, 127, 0}));
-    connect(speedSensor1.v, vy) annotation(Line(visible = true, origin = {58.551, -92.5}, points = {{-14.5, 0}, {14.5, 0}}, color = {0, 0, 127}));
-    connect(constraints1.flange_a, prismatic1.axis) annotation(Line(visible = true, origin = {-21.449, -29.5}, points = {{4.5, 17}, {-5.5, 17}, {-5.5, -17}, {6.5, -17}}, color = {0, 127, 0}));
-    connect(theta1, rollingBall1.u) annotation(Line(visible = true, origin = {-81.265, -16.25}, points = {{-66.333, -3.75}, {21.008, -3.75}, {21.008, 3.75}, {24.316, 3.75}}, color = {0, 0, 127}));
-    connect(frame_a, fixedTranslation.frame_a) annotation(Line(visible = true, origin = {-80.772, 13}, points = {{-66, 0.5}, {21, 0.5}, {21, -0.5}, {24, -0.5}}));
-    connect(fixedTranslation.frame_b, prismatic.frame_a) annotation(Line(visible = true, origin = {-5.266, 32.5}, points = {{-31.506, -20}, {11.506, -20}, {11.506, 20}, {8.494, 20}}));
-    connect(prismatic.frame_b, ballBody.frame_a) annotation(Line(visible = true, origin = {-26.772, 52.5}, points = {{10, 0}, {-10, 0}}));
-    connect(rollingBall.flange_b1, constraints.flange_a) annotation(Line(visible = true, origin = {-26.772, 92.5}, points = {{-10, 0}, {10, 0}}, color = {0, 127, 0}));
-    connect(constraints.flange_b, positionSensor.flange) annotation(Line(visible = true, origin = {13.228, 92.5}, points = {{-10, 0}, {10, 0}}, color = {0, 127, 0}));
-    connect(x, positionSensor.s) annotation(Line(visible = true, origin = {58.728, 92.5}, points = {{14.5, 0}, {-14.5, 0}}, color = {0, 0, 127}));
-    connect(constraints.flange_b, speedSensor.flange) annotation(Line(visible = true, origin = {13.228, 52.5}, points = {{-10, 40}, {0, 40}, {0, -40}, {10, -40}}, color = {0, 127, 0}));
-    connect(speedSensor.v, vx) annotation(Line(visible = true, origin = {58.728, 12.5}, points = {{-14.5, 0}, {14.5, 0}}, color = {0, 0, 127}));
-    connect(constraints.flange_a, prismatic.axis) annotation(Line(visible = true, origin = {-21.272, 75.5}, points = {{4.5, 17}, {-5.5, 17}, {-5.5, -17}, {6.5, -17}}, color = {0, 127, 0}));
-    connect(theta, rollingBall.u) annotation(Line(visible = true, origin = {-101.772, 92.5}, points = {{-45, 0}, {45, 0}}, color = {0, 0, 127}));
     annotation(Diagram(coordinateSystem(extent = {{-148.5, -105}, {148.5, 105}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})));
   end ball1;
 
@@ -96,12 +55,7 @@ package LabyrinthSolver
     Modelica.Mechanics.MultiBody.Parts.BodyBox bodyBox2(length = 2, width = 2, height = .1) annotation(Placement(visible = true, transformation(origin = {-15, -35}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
     Modelica.Mechanics.MultiBody.Parts.FixedRotation fixedRotation(r = {0, 0, 0}, angle = 90, rotationType = Modelica.Mechanics.MultiBody.Types.RotationTypes.RotationAxis, n = {0, 0, 1}) annotation(Placement(visible = true, transformation(origin = {20, -35}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
     Modelica.Mechanics.MultiBody.Parts.BodyBox bodyBox3(length = 2, width = 2, height = .1, color = {255, 0, 0}) annotation(Placement(visible = true, transformation(origin = {127.992, -35}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-    ball1 ball1_1 annotation(Placement(visible = true, transformation(origin = {-13.476, 88.189}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-    Modelica.Blocks.Interfaces.RealOutput theta2 annotation(Placement(visible = true, transformation(origin = {145, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {97.643, 38.095}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-    Modelica.Blocks.Interfaces.RealOutput theta1 annotation(Placement(visible = true, transformation(origin = {145, 75}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {97.643, 71.429}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   equation
-    connect(sine1.y, theta2) annotation(Line(visible = true, origin = {103.638, 35}, points = {{-97.638, -5}, {28.138, -5}, {28.138, 5}, {41.362, 5}}, color = {0, 0, 127}));
-    connect(sine.y, theta1) annotation(Line(visible = true, origin = {78.638, 67.5}, points = {{-172.637, -7.5}, {53.138, -7.5}, {53.138, 7.5}, {66.362, 7.5}}, color = {0, 0, 127}));
     connect(revolute.frame_b, bodyBox3.frame_a) annotation(Line(visible = true, origin = {108.996, -35}, points = {{-8.996, 0}, {8.996, 0}}));
     connect(bodyBox2.frame_b, fixedRotation.frame_a) annotation(Line(visible = true, origin = {2.5, -35}, points = {{-7.5, 0}, {7.5, 0}}));
     connect(revolute1.frame_b, bodyBox2.frame_a) annotation(Line(visible = true, origin = {-32.862, -32.5}, points = {{-17.138, 2.5}, {4.637, 2.5}, {4.637, -2.5}, {7.862, -2.5}}));
@@ -114,5 +68,96 @@ package LabyrinthSolver
     connect(fixed.frame_b, revolute1.frame_a) annotation(Line(visible = true, origin = {-98.494, -30}, points = {{-28.494, 0}, {28.494, -0}}));
     annotation(experiment(__Wolfram_SynchronizeWithRealTime = false), Diagram(coordinateSystem(extent = {{-148.5, -105}, {148.5, 105}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})));
   end Platform;
+
+  model onedofbalance
+    BallAndBeam.Components.Hardware hardware(arduino.Port = "COM4", servo.Pin = 9) annotation(Placement(visible = true, transformation(origin = {92.982, -15}, extent = {{-30, -30}, {30, 30}}, rotation = 0)));
+    Modelica.Blocks.Continuous.Der der1 annotation(Placement(visible = true, transformation(origin = {-73.481, 56.996}, extent = {{-10, -10}, {10, 10}}, rotation = -360)));
+    Modelica.Blocks.Math.Gain p(k = 0.352277) annotation(Placement(visible = true, transformation(origin = {-33.481, 97.065}, extent = {{-10, -10}, {10, 10}}, rotation = -360)));
+    Modelica.Blocks.Math.Gain d(k = 0.295788) annotation(Placement(visible = true, transformation(origin = {9.021, 57.007}, extent = {{-10, -10}, {10, 10}}, rotation = -360)));
+    Modelica.Blocks.Math.Add add annotation(Placement(visible = true, transformation(origin = {46.519, 77.065}, extent = {{-10, -10}, {10, 10}}, rotation = -360)));
+    Modelica.Blocks.Continuous.Filter filter1(f_cut = 10) annotation(Placement(visible = true, transformation(origin = {-35.979, 57.065}, extent = {{-10, -10}, {10, 10}}, rotation = -360)));
+    Modelica.Blocks.Math.Feedback feedback annotation(Placement(visible = true, transformation(origin = {-45, -32.935}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Sources.Pulse pulse(offset = -0.05, amplitude = 0.07, startTime = 5, width = 50, period = 10, nperiod = -1) annotation(Placement(visible = true, transformation(origin = {-85, -32.935}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  equation
+    connect(add.y, hardware.servo_angle_input) annotation(Line(visible = true, origin = {62.75, 51.033}, points = {{-5.231, 26.033}, {0.731, 26.033}, {0.731, -26.033}, {0.232, -66.033}}, color = {0, 0, 127}));
+    connect(der1.u, p.u) annotation(Line(visible = true, origin = {-79.481, 77.031}, points = {{-6, -20.035}, {-14, -20.034}, {-14, 20.034}, {34, 20.034}}, color = {0, 0, 127}));
+    connect(feedback.y, der1.u) annotation(Line(visible = true, origin = {-55.5, 0.375}, points = {{19.5, -33.31}, {30.5, -33.31}, {30.5, 6.69}, {-29.5, 6.69}, {-29.5, 26.621}, {-29.981, 56.621}}, color = {0, 0, 127}));
+    connect(pulse.y, feedback.u1) annotation(Line(visible = true, origin = {-63.5, -32.935}, points = {{-10.5, 0}, {10.5, 0}}, color = {0, 0, 127}));
+    connect(p.y, add.u1) annotation(Line(visible = true, origin = {18.769, 90.065}, points = {{-41.25, 7}, {12.75, 7}, {12.75, -7}, {15.75, -7}}, color = {0, 0, 127}));
+    connect(d.y, add.u2) annotation(Line(visible = true, origin = {29.395, 64.036}, points = {{-9.374, -7.029}, {2.124, -7.029}, {2.124, 7.029}, {5.124, 7.029}}, color = {0, 0, 127}));
+    connect(der1.y, filter1.u) annotation(Line(visible = true, origin = {-53.105, 57.031}, points = {{-9.377, -0.035}, {2.125, -0.035}, {2.125, 0.035}, {5.125, 0.035}}, color = {0, 0, 127}));
+    connect(filter1.y, d.u) annotation(Line(visible = true, origin = {-9.979, 57.036}, points = {{-15, 0.029}, {4, 0.029}, {4, -0.029}, {7, -0.029}}, color = {0, 0, 127}));
+    connect(hardware.rightSensorValueInMeter, feedback.u2) annotation(Line(visible = true, origin = {57.004, -34.587}, points = {{65.978, 19.587}, {69.015, 19.587}, {69.015, -16.413}, {-102.004, -16.413}, {-102.004, -6.348}}, color = {0, 0, 127}));
+    annotation(Diagram(coordinateSystem(extent = {{-148.5, -105}, {148.5, 105}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})));
+  end onedofbalance;
+
+  model hardware
+    Modelica.Blocks.Nonlinear.Limiter limiter(uMin = 0.3, uMax = 0.7) annotation(Placement(visible = true, transformation(origin = {-40, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Interfaces.RealInput servo_angle_input annotation(Placement(visible = true, transformation(origin = {-170, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-100, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+    ModelPlug.Pins.Servo servo(Pin = 9) annotation(Placement(visible = true, transformation(origin = {-2.175, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    ModelPlug.Pins.AnalogInput rightSensorAnalogInput(Pin = 14, MinValue = 0, MaxValue = 1) annotation(Placement(visible = true, transformation(origin = {0, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Interfaces.RealOutput rightSensorValueInMeter annotation(Placement(visible = true, transformation(origin = {170, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Math.Add add(k2 = +1) annotation(Placement(visible = true, transformation(origin = {-80, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Sources.Constant const(k = ServoDeviation) annotation(Placement(visible = true, transformation(origin = {-120, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Continuous.Filter inputFilter(f_cut = 10, order = 1) annotation(Placement(visible = true, transformation(origin = {-120, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Math.Sqrt sqrt1 annotation(Placement(visible = true, transformation(origin = {60, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Continuous.Filter outputFilter(f_cut = 3, order = 1) annotation(Placement(visible = true, transformation(origin = {140, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Math.Add add1(k2 = -1) annotation(Placement(visible = true, transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Sources.Constant const1(k = SensorDeviation) annotation(Placement(visible = true, transformation(origin = {60, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    ModelPlug.Boards.CustomFirmata arduino(Port = port, UpdatePeriod = 0.001, BaudRate = 57600) annotation(Placement(visible = true, transformation(origin = {0, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  equation
+    connect(const.y, add.u2) annotation(Line(visible = true, origin = {-97.75, -23}, points = {{-11.25, -17}, {2.75, -17}, {2.75, 17}, {5.75, 17}}, color = {0, 0, 127}));
+    connect(rightSensorAnalogInput.y, sqrt1.u) annotation(Line(visible = true, origin = {29, -40}, points = {{-19, 0}, {19, 0}}, color = {0, 0, 127}));
+    connect(outputFilter.y, rightSensorValueInMeter) annotation(Line(visible = true, origin = {160.5, 0}, points = {{-9.5, 0}, {9.5, 0}}, color = {0, 0, 127}));
+    connect(add1.y, outputFilter.u) annotation(Line(visible = true, origin = {119.5, 0}, points = {{-8.5, 0}, {8.5, 0}}, color = {0, 0, 127}));
+    connect(limiter.y, servo.u) annotation(Line(visible = true, origin = {-19.75, 10}, points = {{-9.25, -10}, {-0.25, -10}, {-0.25, 30}, {7.575, 30}}, color = {0, 0, 127}));
+    connect(add.y, limiter.u) annotation(Line(visible = true, origin = {-60.5, 0}, points = {{-8.5, 0}, {8.5, 0}}, color = {0, 0, 127}));
+    connect(inputFilter.y, add.u1) annotation(Line(visible = true, origin = {-97.75, 23}, points = {{-11.25, 17}, {2.75, 17}, {2.75, -17}, {5.75, -17}}, color = {0, 0, 127}));
+    connect(inputFilter.u, servo_angle_input) annotation(Line(visible = true, origin = {-145.5, 20}, points = {{13.5, 20}, {5.5, 20}, {5.5, -20}, {-24.5, -20}}, color = {0, 0, 127}));
+    connect(const1.y, add1.u1) annotation(Line(visible = true, origin = {79.75, 23}, points = {{-8.75, 17}, {0.25, 17}, {0.25, -17}, {8.25, -17}}, color = {0, 0, 127}));
+    connect(sqrt1.y, add1.u2) annotation(Line(visible = true, origin = {79.75, -23}, points = {{-8.75, -17}, {0.25, -17}, {0.25, 17}, {8.25, 17}}, color = {0, 0, 127}));
+    connect(arduino.boardConnector, rightSensorAnalogInput.pinConnector) annotation(Line(visible = true, origin = {-10, -24}, points = {{10, 24}, {10, 4}, {-10, 4}, {-10, -16}, {0, -16}}));
+    connect(servo.pinConnector, arduino.boardConnector) annotation(Line(visible = true, origin = {9.565, 24}, points = {{-1.74, 16}, {10.435, 16}, {10.435, -4}, {-9.565, -4}, {-9.565, -24}}));
+    annotation(Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = true, initialScale = 0.1, grid = {10, 10}), graphics = {Rectangle(visible = true, fillColor = {0, 0, 255}, extent = {{-63.13, -63.973}, {63.13, 63.973}}), Text(visible = true, origin = {-3.644, -5}, extent = {{-53.644, -25}, {53.644, 25}}, textString = "Hardware")}), Diagram(coordinateSystem(extent = {{-191.637, -105}, {220, 105}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})));
+  end hardware;
+
+  model BallBalance
+    BallAndBeam.Components.Hardware hardware(arduino.Port = "COM4", servo.Pin = 9) annotation(Placement(visible = true, transformation(origin = {-55, 10}, extent = {{-30, -30}, {30, 30}}, rotation = 0)));
+    Modelica.Blocks.Continuous.Der der1 annotation(Placement(visible = true, transformation(origin = {-140, 58.061}, extent = {{-10, -10}, {10, 10}}, rotation = -360)));
+    Modelica.Blocks.Math.Gain p(k = 0.352277) annotation(Placement(visible = true, transformation(origin = {-100, 98.13}, extent = {{-10, -10}, {10, 10}}, rotation = -360)));
+    Modelica.Blocks.Math.Gain d(k = 0.295788) annotation(Placement(visible = true, transformation(origin = {-57.498, 58.072}, extent = {{-10, -10}, {10, 10}}, rotation = -360)));
+    Modelica.Blocks.Math.Add add annotation(Placement(visible = true, transformation(origin = {-20, 78.13}, extent = {{-10, -10}, {10, 10}}, rotation = -360)));
+    Modelica.Blocks.Continuous.Filter filter1(f_cut = 10) annotation(Placement(visible = true, transformation(origin = {-102.498, 58.13}, extent = {{-10, -10}, {10, 10}}, rotation = -360)));
+    Modelica.Blocks.Math.Feedback feedback annotation(Placement(visible = true, transformation(origin = {-120, -1.87}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Sources.Pulse pulse(offset = -0.05, amplitude = 0.07, startTime = 5, width = 50, period = 10, nperiod = -1) annotation(Placement(visible = true, transformation(origin = {-160, -1.87}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    BallAndBeam.Components.Hardware hardware1(arduino.Port = "COM4", servo.Pin = 9) annotation(Placement(visible = true, transformation(origin = {110, 6}, extent = {{-30, -30}, {30, 30}}, rotation = 0)));
+    Modelica.Blocks.Continuous.Der der2 annotation(Placement(visible = true, transformation(origin = {25, 54.061}, extent = {{-10, -10}, {10, 10}}, rotation = -360)));
+    Modelica.Blocks.Math.Gain p1(k = 0.352277) annotation(Placement(visible = true, transformation(origin = {65, 94.13}, extent = {{-10, -10}, {10, 10}}, rotation = -360)));
+    Modelica.Blocks.Math.Gain d1(k = 0.295788) annotation(Placement(visible = true, transformation(origin = {107.502, 54.072}, extent = {{-10, -10}, {10, 10}}, rotation = -360)));
+    Modelica.Blocks.Math.Add add1 annotation(Placement(visible = true, transformation(origin = {145, 74.13}, extent = {{-10, -10}, {10, 10}}, rotation = -360)));
+    Modelica.Blocks.Continuous.Filter filter2(f_cut = 10) annotation(Placement(visible = true, transformation(origin = {62.502, 54.13}, extent = {{-10, -10}, {10, 10}}, rotation = -360)));
+    Modelica.Blocks.Math.Feedback feedback1 annotation(Placement(visible = true, transformation(origin = {45, -5.87}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Sources.Pulse pulse1(offset = -0.05, amplitude = 0.07, startTime = 5, width = 50, period = 10, nperiod = -1) annotation(Placement(visible = true, transformation(origin = {5, -5.87}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  equation
+    connect(add1.y, hardware1.servo_angle_input) annotation(Line(visible = true, origin = {117.987, 47.083}, points = {{38.013, 27.047}, {41.013, 27.047}, {41.013, 14.035}, {-41.025, 14.035}, {-41.025, -41.083}, {-37.987, -41.083}}, color = {0, 0, 127}));
+    connect(add.y, hardware.servo_angle_input) annotation(Line(visible = true, origin = {-47.012, 51.083}, points = {{38.012, 27.047}, {41.012, 27.047}, {41.012, 14.035}, {-41.025, 14.035}, {-41.025, -41.083}, {-37.988, -41.083}}, color = {0, 0, 127}));
+    connect(hardware1.rightSensorValueInMeter, feedback1.u2) annotation(Line(visible = true, origin = {103.215, -12.374}, points = {{36.785, 18.374}, {39.822, 18.374}, {39.822, -17.626}, {-58.215, -17.626}, {-58.215, -1.496}}, color = {0, 0, 127}));
+    connect(filter2.y, d1.u) annotation(Line(visible = true, origin = {88.502, 54.101}, points = {{-15, 0.029}, {4, 0.029}, {4, -0.029}, {7, -0.029}}, color = {0, 0, 127}));
+    connect(der2.y, filter2.u) annotation(Line(visible = true, origin = {45.377, 54.096}, points = {{-9.377, -0.035}, {2.126, -0.034}, {2.126, 0.035}, {5.125, 0.034}}, color = {0, 0, 127}));
+    connect(d1.y, add1.u2) annotation(Line(visible = true, origin = {127.876, 61.101}, points = {{-9.374, -7.029}, {2.124, -7.029}, {2.124, 7.029}, {5.124, 7.029}}, color = {0, 0, 127}));
+    connect(p1.y, add1.u1) annotation(Line(visible = true, origin = {117.25, 87.13}, points = {{-41.25, 7}, {12.75, 7}, {12.75, -7}, {15.75, -7}}, color = {0, 0, 127}));
+    connect(pulse1.y, feedback1.u1) annotation(Line(visible = true, origin = {26.5, -5.87}, points = {{-10.5, 0}, {10.5, 0}}, color = {0, 0, 127}));
+    connect(feedback1.y, der2.u) annotation(Line(visible = true, origin = {34.5, 27.44}, points = {{19.5, -33.31}, {30.5, -33.31}, {30.5, 6.69}, {-29.5, 6.69}, {-29.5, 26.621}, {-21.5, 26.621}}, color = {0, 0, 127}));
+    connect(der2.u, p1.u) annotation(Line(visible = true, origin = {19, 74.096}, points = {{-6, -20.035}, {-14, -20.034}, {-14, 20.034}, {34, 20.034}}, color = {0, 0, 127}));
+    connect(hardware.rightSensorValueInMeter, feedback.u2) annotation(Line(visible = true, origin = {-61.785, -8.374}, points = {{36.785, 18.374}, {39.822, 18.374}, {39.822, -17.626}, {-58.215, -17.626}, {-58.215, -1.496}}, color = {0, 0, 127}));
+    connect(filter1.y, d.u) annotation(Line(visible = true, origin = {-76.498, 58.101}, points = {{-15, 0.029}, {4, 0.029}, {4, -0.029}, {7, -0.029}}, color = {0, 0, 127}));
+    connect(der1.y, filter1.u) annotation(Line(visible = true, origin = {-119.623, 58.096}, points = {{-9.377, -0.035}, {2.126, -0.034}, {2.126, 0.035}, {5.125, 0.034}}, color = {0, 0, 127}));
+    connect(d.y, add.u2) annotation(Line(visible = true, origin = {-37.124, 65.101}, points = {{-9.374, -7.029}, {2.124, -7.029}, {2.124, 7.029}, {5.124, 7.029}}, color = {0, 0, 127}));
+    connect(p.y, add.u1) annotation(Line(visible = true, origin = {-47.75, 91.13}, points = {{-41.25, 7}, {12.75, 7}, {12.75, -7}, {15.75, -7}}, color = {0, 0, 127}));
+    connect(pulse.y, feedback.u1) annotation(Line(visible = true, origin = {-138.5, -1.87}, points = {{-10.5, 0}, {10.5, 0}}, color = {0, 0, 127}));
+    connect(feedback.y, der1.u) annotation(Line(visible = true, origin = {-130.5, 31.44}, points = {{19.5, -33.31}, {30.5, -33.31}, {30.5, 6.69}, {-29.5, 6.69}, {-29.5, 26.621}, {-21.5, 26.621}}, color = {0, 0, 127}));
+    connect(der1.u, p.u) annotation(Line(visible = true, origin = {-146, 78.096}, points = {{-6, -20.035}, {-14, -20.034}, {-14, 20.034}, {34, 20.034}}, color = {0, 0, 127}));
+    annotation(experiment(__Wolfram_SynchronizeWithRealTime = false), Diagram(coordinateSystem(extent = {{-148.5, -105}, {148.5, 105}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})));
+  end BallBalance;
   annotation(Diagram(coordinateSystem(extent = {{-148.5, -105}, {148.5, 105}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})));
 end LabyrinthSolver;
