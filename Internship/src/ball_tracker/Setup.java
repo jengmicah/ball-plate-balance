@@ -63,12 +63,12 @@ public class Setup {
 		livePanel = new Panel();
 		binPanel = new Panel();
 		sliderPanel = new JPanel();
-		//initializing slider values (blue)
-		h_slider = new JSlider(min, h_max, 95);
+		//initializing slider values (orange)
+		h_slider = new JSlider(min, h_max, 0);
 		s_slider = new JSlider(min, s_max, 150);
 		v_slider = new JSlider(min, v_max, 75);
-		h_slider2 = new JSlider(min, h_max, 145);
-		s_slider2 = new JSlider(min, s_max, 255);
+		h_slider2 = new JSlider(min, h_max, 180);
+		s_slider2 = new JSlider(min, s_max, 192);
 		v_slider2 = new JSlider(min, v_max, 255);
 		blur_slider = new JSlider(1, 50, 10);
 		erode_slider = new JSlider(min, 20, 5);

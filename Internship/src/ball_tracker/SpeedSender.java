@@ -1,12 +1,5 @@
 package ball_tracker;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.Socket;
-import java.net.UnknownHostException;
-
 /*
  * This sends packets of data with the x-coordinate of the object being tracked to the indicated server port, which
  * is intended to be a userInput into SystemModeler
