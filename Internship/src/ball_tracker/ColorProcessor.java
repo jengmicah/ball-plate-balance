@@ -1,5 +1,6 @@
 package ball_tracker;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JSlider;
@@ -53,7 +54,7 @@ public class ColorProcessor {
 		erode_element = new Mat();
 	}
 
-	public Point process() {
+	public double[] process() {
 		webcam.read(img1); //read one frame
 		if(img1 != null || !img1.empty()) { //if a frame is captured
 			Imgproc.cvtColor(img1, imghsv, Imgproc.COLOR_BGR2HSV); //convert BGR to HSV
@@ -65,10 +66,11 @@ public class ColorProcessor {
 
 			min = new Scalar(h_slider.getValue(),s_slider.getValue(),v_slider.getValue(),0); //set value to slider value
 			max = new Scalar(h_slider2.getValue(),s_slider2.getValue(),v_slider2.getValue(),0);
-			Core.inRange(imghsv,min,max,imgbin); 
 
-			Point x = detect(imgbin,img1);
+			Core.inRange(imghsv,min,max,imgbin); //imgbin becomes binary after inRange is called
 
+//			double[] point = findBall(imgbin,img1);
+			findPlate(imgbin, img1);
 			//Imgproc.circle(img1, new Point(myListener.getXVal(), myListener.getYVal()), 5, new Scalar(255,0,0), -1);
 
 			//show captured frame
@@ -77,45 +79,94 @@ public class ColorProcessor {
 			binPanel.setImageWithMat(imgbin);
 			binPanel.repaint();
 
-			return x;				
+			return new double[2];				
 		}
 		return null;
 	}
 
-	public Point detect(Mat thresholdImage, Mat cameraFeed) {		
+	public double[] findBall(Mat thresholdImage, Mat cameraFeed) {		
 		Mat temp = new Mat();
 		thresholdImage.copyTo(temp);
 		List<MatOfPoint> contours = new ArrayList<MatOfPoint>(); //these two vectors needed for output of findContours
 		MatOfInt4 hierarchy = new MatOfInt4();
-		//Imgproc.findContours(temp,contours,hierarchy,Imgproc.RETR_CCOMP,Imgproc.CHAIN_APPROX_SIMPLE );// retrieves all contours of filtered image
 		Imgproc.findContours(temp,contours,hierarchy,Imgproc.RETR_EXTERNAL,Imgproc.CHAIN_APPROX_SIMPLE );// retrieves external contours
-		//				for( int i = 0; i< contours.size(); i++ ){
-		//					Imgproc.drawContours(img1, contours, i, new Scalar(0,255,0), 2); //draw contours
-		//				}
+		for( int i = 0; i< contours.size(); i++ ){
+			Imgproc.drawContours(img1, contours, i, new Scalar(0,255,0), 2); //draw contours
+		}
 
-		if(contours.size() > 0) { //if contours vector is not empty, we have found some objects
-			List<MatOfPoint> largestContourVec = new ArrayList<MatOfPoint>(); //largest contour = end of the contours vector
-			largestContourVec.add(contours.get(contours.size()-1));
-			obj_rect = Imgproc.boundingRect(largestContourVec.get(0)); //make bounding rect around largest vector
+		if(contours.size() > 0) { //if contours vector is not empty, we have found some objects			
+			// Find max contour area
+			double maxArea = 0;
+			int generalIndex = 0;
+			int contourIndex = 0;
+			Iterator<MatOfPoint> each = contours.iterator();
+			while (each.hasNext()) {
+				MatOfPoint wrapper = each.next();
+				double area = Imgproc.contourArea(wrapper);
+				if (area > maxArea){
+					maxArea = area;
+					contourIndex = generalIndex;
+				}
+				generalIndex++;
+			}
+
+			obj_rect = Imgproc.boundingRect(contours.get(contourIndex)); //make bounding rect around largest vector
 			x = obj_rect.x;
 			y = obj_rect.y;
 			x2 = obj_rect.x + obj_rect.width;
 			y2 = obj_rect.y + obj_rect.height;
-
 			//			obj_arr[0] = x; obj_arr[1] = y; obj_arr[2] = x2; obj_arr = y2;
 
 			midX = (x + x2)/2;
 			midY = (y + y2)/2;
-			Point obj = translatePoint(midX,midY);
+			double[] obj = translatePoint(midX,midY);
 			Imgproc.rectangle(cameraFeed, new Point(x, y), new Point(x2, y2), new Scalar(0,0,255),2); //draw rectangle around the object
 			Imgproc.circle(cameraFeed, new Point(midX, midY), 4, new Scalar(255,255,0));
-			Imgproc.putText(cameraFeed,"(" + obj.x +","+ obj.y + ")", new Point(x,y),2,1, new Scalar(255,0,0),2);
+			Imgproc.putText(cameraFeed,"(" + obj[0] +","+ obj[1] + ")", new Point(x,y),2,1, new Scalar(255,0,0),2);
 			return obj;
 		}
 		return null;
 	}
 
-	public Point translatePoint(int x, int y) { //origin is at the bottom/middle of the frame
-		return new Point(x - livePanel.getWidth()/2., livePanel.getHeight() - y);
+	//////FIX////////
+	public void findPlate(Mat thresholdImage, Mat cameraFeed) {
+		Mat temp = new Mat();
+		thresholdImage.copyTo(temp);
+		Mat lines = new Mat();
+		int threshold = 50;
+		int minLineSize = 20;
+		int lineGap = 20;
+
+		Imgproc.HoughLinesP(temp, lines, 1, Math.PI/180, threshold, minLineSize, lineGap);
+		for(int i = 0; i < lines.cols(); i++ )
+		{
+			double[] vec = lines.get(0, i);
+			double x1 = vec[0], 
+					y1 = vec[1],
+					x2 = vec[2],
+					y2 = vec[3];
+			Point start = new Point(x1, y1);
+			Point end = new Point(x2, y2);
+
+			Imgproc.line(cameraFeed, start, end, new Scalar(255,0,0), 3);
+		}
+		x = obj_rect.x;
+		y = obj_rect.y;
+		x2 = obj_rect.x + obj_rect.width;
+		y2 = obj_rect.y + obj_rect.height;
+		//			obj_arr[0] = x; obj_arr[1] = y; obj_arr[2] = x2; obj_arr = y2;
+
+		//		double[] obj = translatePoint(midX,midY);
+		//		Imgproc.rectangle(cameraFeed, new Point(x, y), new Point(x2, y2), new Scalar(0,0,255),2); //draw rectangle around the object
+		//		Imgproc.circle(cameraFeed, new Point(midX, midY), 4, new Scalar(255,255,0));
+		//		Imgproc.putText(cameraFeed,"(" + obj[0] +","+ obj[1] + ")", new Point(x,y),2,1, new Scalar(255,0,0),2);
 	}
+	//////FIX////////
+
+	public double[] translatePoint(int x, int y) { //origin is at the bottom/middle of the frame
+		double[] translated = {x - livePanel.getWidth()/2., livePanel.getHeight() - y};
+		return translated;
+	}
+
+
 }

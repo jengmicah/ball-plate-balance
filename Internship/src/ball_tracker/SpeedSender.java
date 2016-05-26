@@ -11,11 +11,11 @@ public class SpeedSender {
 	//comment out this main method to communicate with SysMo
 	public static void main(String[] args){
 		Setup f = new Setup(); //begins ColorFiltering
-		String userInput;
+		double[] userInput = new double[2];
 
 		while(f.isRun() && f.getWebcam().isOpened() && f.getProc() != null){ //while the windows and webcam are open
-			userInput = f.getProc().process() + "";	//run the color filtering method in ColorProcessor
-			System.out.println(userInput);
+			userInput = f.getProc().process();	//run the color filtering method in ColorProcessor
+			System.out.println("[" + userInput[0] + "," + userInput[1] + "]");
 		}			
 	}
 	//		public static void main(String[] args) throws IOException, InterruptedException {
