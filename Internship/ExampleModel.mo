@@ -2,17 +2,16 @@ package DCMotorInteractive
   model ExampleModel "Example showing dynamic control through WSMLink"
     extends Modelica.Icons.Example;
     Modelica.Blocks.Interfaces.RealOutput outputSpeed "The speed of the motor" annotation(Placement(visible = true, transformation(origin = {85, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-    Modelica.Blocks.Interfaces.RealInput userInput "Input from the user, provided via Mathematica" annotation(Placement(visible = true, transformation(origin = {-70, -20}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-120, -0}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+    Modelica.Blocks.Interfaces.RealInput userInput "Input from the user, provided via Mathematica" annotation(Placement(visible = true, transformation(origin = {-70, -20}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-120, 0}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+    Modelica.Blocks.Interfaces.RealInput userInput1 "Input from the user, provided via Mathematica" annotation(Placement(visible = true, transformation(origin = {-70, 15}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-112, -8}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   protected
     DCMotorInteractive.Components.DCMotor DCMotor "Physical system under control from the added signals" annotation(Placement(visible = true, transformation(origin = {40, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   protected
     Modelica.Blocks.Math.Add add "Combine the base level and the user signal" annotation(Placement(visible = true, transformation(origin = {0, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  protected
-    Modelica.Blocks.Sources.Constant baseLevel(k = 1) "A base level for the speed of the motor" annotation(Placement(visible = true, transformation(origin = {-60, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   equation
+    connect(userInput1, add.u1) annotation(Line(visible = true, origin = {-40.5, 10.5}, points = {{-29.5, 4.5}, {0.5, 4.5}, {0.5, -4.5}, {28.5, -4.5}}, color = {0, 0, 127}));
     connect(add.u2, userInput) annotation(Line(visible = true, origin = {-37.225, -13}, points = {{25.225, 7}, {-2.775, 7}, {-2.775, -7}, {-32.775, -7}}, color = {0, 0, 127}));
     connect(DCMotor.w, outputSpeed) annotation(Line(visible = true, origin = {69.88800000000001, -3.5}, points = {{-18.888, -3.5}, {1.888, -3.5}, {1.888, 3.5}, {15.112, 3.5}}, color = {0, 0, 127}));
-    connect(baseLevel.y, add.u1) annotation(Line(visible = true, origin = {-47.75, 13}, points = {{-1.25, 7}, {7.75, 7}, {7.75, -7}, {35.75, -7}}, color = {0, 0, 127}));
     connect(add.y, DCMotor.V) annotation(Line(visible = true, origin = {19.5, 0}, points = {{-8.5, 0}, {8.5, 0}}, color = {0, 0, 127}));
     annotation(experiment(StopTime = 60, Interval = 0.01, __Wolfram_SynchronizeWithRealTime = true), preferredView = "info", Documentation(info = "<html><!--WSMINSERTIONTAGSTART ExampleModel -->
    <head>
