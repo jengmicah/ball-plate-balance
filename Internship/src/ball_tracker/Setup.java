@@ -17,6 +17,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.DefaultCaret;
@@ -56,6 +58,10 @@ public class Setup {
 		//loads opencv library
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME); 
 		//a bunch o' frames
+		System.setProperty("apple.laf.useScreenMenuBar", "true");
+		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "WikiTeX");
+		try {UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());} 
+		catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {e.printStackTrace();}
 		liveFrame = new JFrame("Live Feed");
 		binFrame = new JFrame("Threshold");
 		sliderFrame = new JFrame("Slider");
@@ -191,8 +197,8 @@ public class Setup {
 	public void loadWebcam() {
 		webcam = new VideoCapture();
 		webcam.open(camNum); //turn on the webcam 
-//		webcam.set(Videoio.CV_CAP_PROP_FRAME_WIDTH, 800); //set resolution of webcam
-//		webcam.set(Videoio.CV_CAP_PROP_FRAME_HEIGHT, 600);
+		//		webcam.set(Videoio.CV_CAP_PROP_FRAME_WIDTH, 800); //set resolution of webcam
+		//		webcam.set(Videoio.CV_CAP_PROP_FRAME_HEIGHT, 600);
 		videoWidth = (int)webcam.get(Videoio.CV_CAP_PROP_FRAME_WIDTH);
 		videoHeight = (int)webcam.get(Videoio.CV_CAP_PROP_FRAME_HEIGHT);
 		if(webcam.isOpened()) { System.out.println("Found webcam: " + webcam.toString()); } //check if webcam has been turned on
