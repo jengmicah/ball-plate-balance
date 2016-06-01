@@ -23,7 +23,6 @@ import org.opencv.videoio.VideoCapture;
  */
 public class ColorProcessor {
 
-	private Scalar min, max;
 	private Mat img1, imghsv, imgbin;
 	private Panel livePanel, binPanel;
 	private VideoCapture webcam;
@@ -35,7 +34,7 @@ public class ColorProcessor {
 	//	private MyListener myListener;
 	private boolean foundBall = false;
 	private ArrayList<Point> points;
-	int pointListSize = 15;
+	int pointListSize = 10;
 	
 	public ColorProcessor(VideoCapture webcam, boolean run, Panel livePanel, Panel binPanel, JSlider h_slider, 
 			JSlider s_slider, JSlider v_slider, JSlider h_slider2, JSlider s_slider2, JSlider v_slider2, 
@@ -52,7 +51,6 @@ public class ColorProcessor {
 		this.v_slider2 = v_slider2;
 		this.blur_slider = blur_slider;
 		this.erode_slider = erode_slider;
-		//		this.myListener = myListener;
 		img1 = new Mat();
 		imghsv = new Mat();
 		imgbin = new Mat();
@@ -61,6 +59,9 @@ public class ColorProcessor {
 	}
 
 	public double[] process() {
+		/*
+		 * Loop of entire algorithm
+		 */
 		webcam.read(img1); //read one frame
 		if(img1 != null && !img1.empty()) { //if a frame is captured
 			Imgproc.cvtColor(img1, imghsv, Imgproc.COLOR_BGR2HSV); //convert BGR to HSV
@@ -70,14 +71,14 @@ public class ColorProcessor {
 			Imgproc.erode(imghsv,imghsv,erode_element); //EROAD
 			Imgproc.dilate(imghsv,imghsv,erode_element); //DYLAIT
 
-			min = new Scalar(h_slider.getValue(),s_slider.getValue(),v_slider.getValue(),0); //set value to slider value
-			max = new Scalar(h_slider2.getValue(),s_slider2.getValue(),v_slider2.getValue(),0);
+			Scalar min = new Scalar(h_slider.getValue(),s_slider.getValue(),v_slider.getValue(),0); //set value to slider value
+			Scalar max = new Scalar(h_slider2.getValue(),s_slider2.getValue(),v_slider2.getValue(),0);
 
 			Core.inRange(imghsv,min,max,imgbin); //imgbin becomes binary after inRange is called
 
 			double[] point = findBall(imgbin,img1);
 			//			findPlate(imgbin, img1);
-			drawLine(img1, points, pointListSize);
+			drawTrail(img1, points, pointListSize);
 
 			//show captured frame
 			livePanel.setImageWithMat(img1);
@@ -90,22 +91,31 @@ public class ColorProcessor {
 		return null;
 	}
 
-	public void drawLine(Mat liveFeed, ArrayList<Point> pointList, int listSize) {
+	public void drawTrail(Mat liveFeed, ArrayList<Point> pointList, int listSize) {
+		/*
+		 * Draws the trail from the centroid of the tracked object
+		 */
 		for(int i = 1; i < listSize; i++) {
-			int thickness = (int)Math.sqrt((100/i) * 2.5);
-			if(pointList.size() > i )Imgproc.line(liveFeed, pointList.get(i), pointList.get(i-1), new Scalar(0, 0, 255), thickness);
+			int thickness = (int)Math.sqrt((100/i) * 2.5); //decreasing thickness as the trail goes on
+			if(pointList.size() > i )Imgproc.line(liveFeed, pointList.get(i), pointList.get(i-1), new Scalar(i, i*25, 255), thickness);
 		}
 	}
 
-	public void push(Point newPoint, ArrayList<Point> pointList, int listSize) {
-		//add point to beginning of ArrayList 
-		//(everything is appended, so the 2nd element becomes the 1st, 3rd becomes 1nd, and so on)
-		//this is the reason why the trail fades
+	public void pushToList(Point newPoint, ArrayList<Point> pointList, int listSize) {
+		/*
+		 * Appends point at beginning of ArrayList 
+		 * (2nd element becomes 1st, 3rd becomes 2nd, and so on)
+		 * This makes the trail fade
+		 */
 		pointList.add(0, newPoint); 
 		if(pointList.size() > listSize) pointList.remove(pointList.size() - 1); //never exceed 10 elements
 	}
 
-	public double[] findBall(Mat thresholdImage, Mat liveFeed) {		
+	public double[] findBall(Mat thresholdImage, Mat liveFeed) {
+		/*
+		 * Given a binary matrix, find object location (simple contour detection in a threshold image)
+		 * Return a double array with x,y coordinates of the midpoint of the object
+		 */
 		Mat temp = new Mat();
 		thresholdImage.copyTo(temp);
 		List<MatOfPoint> contours = new ArrayList<MatOfPoint>(); //these two vectors needed for output of findContours
@@ -117,16 +127,18 @@ public class ColorProcessor {
 			foundBall = true;
 			int index = findLargestContour(contours);
 			obj_rect = Imgproc.boundingRect(contours.get(index)); //make bounding rect around largest vector
-			x = obj_rect.x; //assign x,y values based on rect
+			
+			x = obj_rect.x; //assign x,y values based on rect   
 			y = obj_rect.y;
 			x2 = obj_rect.x + obj_rect.width;
 			y2 = obj_rect.y + obj_rect.height;
+			
 			//			obj_arr[0] = x; obj_arr[1] = y; obj_arr[2] = x2; obj_arr = y2;
 
 			int midX = (x + x2)/2;
 			int midY = (y + y2)/2;
 
-			push(new Point(midX, midY), points, pointListSize); //add these points to the ArrayList for the trail
+			pushToList(new Point(midX, midY), points, pointListSize); //add these points to the ArrayList for the trail
 
 			double[] obj = translatePoint(midX,midY);
 			Imgproc.rectangle(liveFeed, new Point(x, y), new Point(x2, y2), new Scalar(0,0,255),2); //draw rectangle around the object
@@ -140,6 +152,27 @@ public class ColorProcessor {
 		}
 	}
 
+	public int findLargestContour(List<MatOfPoint> contours) {
+		/*
+		 * Finds contour with max area
+		 * Returns index of that contour
+		 */
+		double maxArea = 0;
+		int generalIndex = 0;
+		int contourIndex = 0;
+		Iterator<MatOfPoint> each = contours.iterator();
+		while (each.hasNext()) {
+			MatOfPoint wrapper = each.next();
+			double area = Imgproc.contourArea(wrapper);
+			if (area > maxArea){
+				maxArea = area;
+				contourIndex = generalIndex;
+			}
+			generalIndex++;
+		}
+		return contourIndex;
+	}
+	
 	public void findPlate(Mat thresholdImage, Mat liveFeed) {
 		Mat temp = new Mat();
 		thresholdImage.copyTo(temp);
@@ -166,26 +199,6 @@ public class ColorProcessor {
 			//		Imgproc.putText(liveFeed,"(" + obj[0] +","+ obj[1] + ")", new Point(x,y),2,1, new Scalar(255,0,0),2);
 		}
 	}
-
-	
-	public int findLargestContour(List<MatOfPoint> contours) {
-		// Find max contour area
-		double maxArea = 0;
-		int generalIndex = 0;
-		int contourIndex = 0;
-		Iterator<MatOfPoint> each = contours.iterator();
-		while (each.hasNext()) {
-			MatOfPoint wrapper = each.next();
-			double area = Imgproc.contourArea(wrapper);
-			if (area > maxArea){
-				maxArea = area;
-				contourIndex = generalIndex;
-			}
-			generalIndex++;
-		}
-		return contourIndex;
-	}
-
 	
 	public boolean isContourSquare(MatOfPoint thisContour) {
 		Rect ret = null;
@@ -206,7 +219,6 @@ public class ColorProcessor {
 
 		return (ret != null);
 	}
-
 	
 	public List<MatOfPoint> getSquareContours(List<MatOfPoint> contours) {
 		List<MatOfPoint> squares = new ArrayList<MatOfPoint>();
@@ -217,7 +229,6 @@ public class ColorProcessor {
 		}
 		return squares;
 	}
-
 
 	public double[] translatePoint(int x, int y) { //origin is at the bottom/middle of the frame
 		double[] translated = {x - livePanel.getWidth()/2., livePanel.getHeight() - y};
