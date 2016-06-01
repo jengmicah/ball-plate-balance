@@ -49,7 +49,7 @@ package InternPackage
     Modelica.Mechanics.MultiBody.Joints.Revolute Roll_in_Z(useAxisFlange = true, n = {1, 0, 0}) annotation(Placement(visible = true, transformation(origin = {90, -25}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
     Modelica.Mechanics.MultiBody.Joints.Prismatic Move_in_Z(n = {0, 0, 1}, animation = false, useAxisFlange = true) annotation(Placement(visible = true, transformation(origin = {21.775, 5}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
     Modelica.Mechanics.Rotational.Components.IdealRollingWheel Z_Dir_Rolling_Constraint(radius = BallRadius) annotation(Placement(visible = true, transformation(origin = {55, -54.078}, extent = {{14.078, -14.078}, {-14.078, 14.078}}, rotation = 0)));
-    Components.PlateInput plateInput annotation(Placement(visible = true, transformation(origin = {-130, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Components.PlateInput plateInput(pulse.width = 2) annotation(Placement(visible = true, transformation(origin = {-130, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   equation
     connect(Plate_Z_Rotate.support, Z_Rotation_cmd.support) annotation(Line(visible = true, origin = {-73, -6.363}, points = {{12, -8.637}, {12, 1.137}, {-12, 1.137}, {-12, 6.363}}));
     connect(plateInput.y, Z_Rotation_cmd.phi_ref) annotation(Line(visible = true, origin = {-106.75, 25}, points = {{-13.25, 15}, {1.75, 15}, {1.75, -15}, {9.75, -15}}, color = {0, 0, 127}));

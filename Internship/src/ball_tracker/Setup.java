@@ -85,12 +85,12 @@ public class Setup {
 		console = new JTextArea(18,40);
 		//button that saves the HSV values into a text file
 		button = new JButton("STAHHHHP");
-		//load webcam (lolz)
+		//load webcam
 		loadWebcam();
 		//set up each window
 		setFrame(liveFrame, livePanel, screenWidth/2-videoWidth,0, videoWidth+30, videoHeight+60, false);
 		setFrame(binFrame, binPanel, screenWidth/2, 0, videoWidth+30, videoHeight+60, false);
-		setFrame(sliderFrame, sliderPanel,(int)(screenWidth*0.05),screenHeight/2,(int)(screenWidth/1.1),400, false);
+		setFrame(sliderFrame, sliderPanel,(int)(screenWidth*0.05),screenHeight/2,1500,500, false);
 		setFrame(consoleFrame, consolePanel,0,0,600,600, true);
 		//set up specifically for window with sliders
 		setSlider(sliderFrame, sliderPanel, textField);
@@ -98,13 +98,22 @@ public class Setup {
 		proc = new ColorProcessor(webcam, run, livePanel, binPanel, h_slider, s_slider, v_slider, h_slider2, s_slider2, v_slider2, blur_slider, erode_slider);
 	}
 
-	public void setFrame(JFrame frame, JPanel panel, int x, int y, int width, int height, boolean listen) {
+	public void setFrame(JFrame frame, JPanel panel, int x, int y, int width, int height, boolean slide) {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //x = close
 		frame.setBounds(x, y, width, height); //size + position
 		frame.setContentPane(panel); //add panel
 		//		frame.setResizable(false);
 		frame.setVisible(true);
-		if(listen) { 
+		frame.addWindowListener(new WindowAdapter() { //what happens when window closes
+			public void windowClosing(WindowEvent e) {
+				console.append("Exiting..");
+				run = false; //stops the loop in SpeedSender
+				webcam.release(); //exit webcam
+				e.getWindow().dispose();
+				System.exit(0);
+			}
+		});
+		if(slide) { 
 			console.setEditable(false);
 			console.setFont(new Font("Serif", 5, 20));
 			DefaultCaret caret = (DefaultCaret)console.getCaret();
@@ -124,15 +133,6 @@ public class Setup {
 			panel.add(scrollPane);
 			panel.add(button);
 		}
-		frame.addWindowListener(new WindowAdapter() { //what happens when window closes
-			public void windowClosing(WindowEvent e) {
-				console.append("Exiting..");
-				run = false; //stops the loop in SpeedSender
-				webcam.release(); //exit webcam
-				e.getWindow().dispose();
-				System.exit(0);
-			}
-		});
 	}
 
 	public void setSlider(JFrame frame, JPanel panel1, JTextField textField) {
@@ -182,7 +182,7 @@ public class Setup {
 				textField.setText("" + source.getValue());
 			}
 		}; //this block must be after the local declaration of textField but before panel adds textField
-
+		
 		slider.addChangeListener(listener);
 		desc.setFont(new Font("SansSerif", Font.BOLD, 20));	
 		textField.setColumns(3);

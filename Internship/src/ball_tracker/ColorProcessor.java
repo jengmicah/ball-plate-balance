@@ -28,10 +28,8 @@ public class ColorProcessor {
 	private VideoCapture webcam;
 	private JSlider h_slider, s_slider, v_slider, h_slider2, s_slider2, v_slider2, blur_slider, erode_slider;
 	private Rect obj_rect = new Rect(0,0,0,0);
-	//	private int[] obj_arr = {0,0,0,0};
 	private Mat erode_element;
 	private int x,y,x2,y2;
-	//	private MyListener myListener;
 	private boolean foundBall = false;
 	private ArrayList<Point> points;
 	int pointListSize = 10;
@@ -76,9 +74,9 @@ public class ColorProcessor {
 
 			Core.inRange(imghsv,min,max,imgbin); //imgbin becomes binary after inRange is called
 
-			double[] point = findBall(imgbin,img1);
-			//			findPlate(imgbin, img1);
+			double[] point = findObj(imgbin,img1);
 			drawTrail(img1, points, pointListSize);
+//			findPlate(imgbin, img1);
 
 			//show captured frame
 			livePanel.setImageWithMat(img1);
@@ -111,7 +109,7 @@ public class ColorProcessor {
 		if(pointList.size() > listSize) pointList.remove(pointList.size() - 1); //never exceed 10 elements
 	}
 
-	public double[] findBall(Mat thresholdImage, Mat liveFeed) {
+	public double[] findObj(Mat thresholdImage, Mat liveFeed) {
 		/*
 		 * Given a binary matrix, find object location (simple contour detection in a threshold image)
 		 * Return a double array with x,y coordinates of the midpoint of the object
@@ -133,8 +131,6 @@ public class ColorProcessor {
 			x2 = obj_rect.x + obj_rect.width;
 			y2 = obj_rect.y + obj_rect.height;
 			
-			//			obj_arr[0] = x; obj_arr[1] = y; obj_arr[2] = x2; obj_arr = y2;
-
 			int midX = (x + x2)/2;
 			int midY = (y + y2)/2;
 
@@ -191,7 +187,6 @@ public class ColorProcessor {
 			y = obj_rect.y;
 			x2 = obj_rect.x + obj_rect.width;
 			y2 = obj_rect.y + obj_rect.height;
-			//			obj_arr[0] = x; obj_arr[1] = y; obj_arr[2] = x2; obj_arr = y2;
 
 			//		double[] obj = translatePoint(midX,midY);
 			//		Imgproc.rectangle(liveFeed, new Point(x, y), new Point(x2, y2), new Scalar(0,0,255),2); //draw rectangle around the object
