@@ -14,73 +14,73 @@ import java.net.UnknownHostException;
 
 public class SpeedSender {
 	//comment out this main method to communicate with SysMo
-		public static void main(String[] args){
-			Setup f = new Setup(); //begins ColorFiltering
-			double[] userInput = new double[2];
-			while(f.isRun() && f.getWebcam().isOpened() && f.getProc() != null){ //while the windows and webcam are open
-				userInput = f.getProc().process();	//run the color filtering method in ColorProcessor
-				if(f.getProc().getFoundBall()) {
-					f.getConsole().append("[" + userInput[0] + ", " + userInput[1] + "]\n");
-				}
-			}			
-		}
-//	public static void main(String[] args) throws IOException, InterruptedException {
-//
-//		Setup f = new Setup(); //begin setup
-//
-//		if (args.length != 2) { // Validate that the user input server IP and port
-//			f.getConsole().append("Usage: java SpeedSender <host name> <port number>\n");
-//			System.exit(1);
-//		}
-//		String host = args[0]; // First set of numbers (127.0.0.1) is the IP of the host that the server is running on
-//		int port = Integer.parseInt(args[1]); // Second set (#####) is the port that the server is listening to
-//
-//
-//		try (Socket socket = new Socket(host, port); // Establish connection to specified port	
-//				PrintWriter out = new PrintWriter(socket.getOutputStream(), true);){ // Open output stream to the socket
-//
-//			f.getConsole().append("Connected to " + host + " on port " + port + "\n");
-//			double[] userInput;
-//			String hexString, command, tcppackage; // Variables for socket-server communication			
-//
-//			while(f.isRun() && f.getWebcam().isOpened() && f.getProc() != null){ // Make sure all components are running
-//				userInput = f.getProc().process(); // Get inputs
-//				if(f.getProc().getFoundBall()) { // If ball is on screen, send coordinates
-//
-//					/*
-//					 * Send ball x coordinate
-//					 */
-//					tcppackage = "setInputValues({\"userInput\", " + userInput[0] + "})"; // Sets destination + input value
-//					hexString = String.format("01030000%02X000000", tcppackage.length()); // Sets data in hex
-//					command = hexToASCII(hexString)+ tcppackage; // Socket client sends data to server in ASCII codes
-//					out.print(command); // Send data to server
-//					out.flush(); // Make sure all data is sent (sends out all data in buffer)
-//					f.getConsole().append("x-coordinate: " + userInput[0]);
-//
-//					/*
-//					 * Send ball y coordinate
-//					 */
-//					tcppackage = "setInputValues({\"userInput1\", " + userInput[1] + "})";
-//					hexString = String.format("01030000%02X000000", tcppackage.length());
-//					command = hexToASCII(hexString)+ tcppackage;
-//					out.print(command);
-//					out.flush();
-//					f.getConsole().append("     y-coordinate: " + userInput[1] + "\n");
-//
-//					Thread.sleep(50);
+//		public static void main(String[] args){
+//			Setup f = new Setup(); //begins ColorFiltering
+//			double[] userInput = new double[2];
+//			while(f.isRun() && f.getWebcam().isOpened() && f.getProc() != null){ //while the windows and webcam are open
+//				userInput = f.getProc().process();	//run the color filtering method in ColorProcessor
+//				if(f.getProc().getFoundBall()) {
+//					f.getConsole().append("[" + userInput[0] + ", " + userInput[1] + "]\n");
 //				}
-//			}
-//			out.close();
-//			socket.close();
-//			f.getConsole().append("Exiting");
-//		} catch (UnknownHostException e) {
-//			f.getConsole().append("Don't know about host " + host);
-//			System.exit(1);
-//		} catch (IOException e) {
-//			f.getConsole().append("Couldn't get I/O for the connection to " + host);
-//			System.exit(1);
-//		} 
-//	}
+//			}			
+//		}
+	public static void main(String[] args) throws IOException, InterruptedException {
+
+		Setup f = new Setup(); //begin setup
+
+		if (args.length != 2) { // Validate that the user input server IP and port
+			f.getConsole().append("Usage: java SpeedSender <host name> <port number>\n");
+			System.exit(1);
+		}
+		String host = args[0]; // First set of numbers (127.0.0.1) is the IP of the host that the server is running on
+		int port = Integer.parseInt(args[1]); // Second set (#####) is the port that the server is listening to
+
+
+		try (Socket socket = new Socket(host, port); // Establish connection to specified port	
+				PrintWriter out = new PrintWriter(socket.getOutputStream(), true);){ // Open output stream to the socket
+
+			f.getConsole().append("Connected to " + host + " on port " + port + "\n");
+			double[] userInput;
+			String hexString, command, tcppackage; // Variables for socket-server communication			
+
+			while(f.isRun() && f.getWebcam().isOpened() && f.getProc() != null){ // Make sure all components are running
+				userInput = f.getProc().process(); // Get inputs
+				if(f.getProc().getFoundBall()) { // If ball is on screen, send coordinates
+
+					/*
+					 * Send ball x coordinate
+					 */
+					tcppackage = "setInputValues({\"X\", " + userInput[0] + "})"; // Sets destination + input value
+					hexString = String.format("01030000%02X000000", tcppackage.length()); // Sets data in hex
+					command = hexToASCII(hexString)+ tcppackage; // Socket client sends data to server in ASCII codes
+					out.print(command); // Send data to server
+					out.flush(); // Make sure all data is sent (sends out all data in buffer)
+					f.getConsole().append("x-coordinate: " + userInput[0]);
+
+					/*
+					 * Send ball y coordinate
+					 */
+					tcppackage = "setInputValues({\"Y\", " + userInput[1] + "})";
+					hexString = String.format("01030000%02X000000", tcppackage.length());
+					command = hexToASCII(hexString)+ tcppackage;
+					out.print(command);
+					out.flush();
+					f.getConsole().append("     y-coordinate: " + userInput[1] + "\n");
+
+					Thread.sleep(50);
+				}
+			}
+			out.close();
+			socket.close();
+			f.getConsole().append("Exiting");
+		} catch (UnknownHostException e) {
+			f.getConsole().append("Don't know about host " + host);
+			System.exit(1);
+		} catch (IOException e) {
+			f.getConsole().append("Couldn't get I/O for the connection to " + host);
+			System.exit(1);
+		} 
+	}
 
 	private static String hexToASCII(String hexValue){ //uh.
 		StringBuilder output = new StringBuilder("");
