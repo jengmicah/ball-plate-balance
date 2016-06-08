@@ -50,12 +50,21 @@ public class SpeedSender {
 					/*
 					 * Send ball x coordinate
 					 */
+<<<<<<< HEAD
 					tcppackage = "setInputValues({\"X\", " + userInput[0] + "})"; // Sets destination + input value
 					hexString = String.format("01030000%02X000000", tcppackage.length()); // Sets data in hex
 					command = hexToASCII(hexString)+ tcppackage; // Socket client sends data to server in ASCII codes
 					out.print(command); // Send data to server
 					out.flush(); // Make sure all data is sent (sends out all data in buffer)
 					f.getConsole().append("x-coordinate: " + userInput[0]);
+=======
+//					tcppackage = "setInputValues({\"X\", " + userInput[0] + "})"; // Sets destination + input value
+//					hexString = String.format("01030000%02X000000", tcppackage.length()); // Sets data in hex
+//					command = hexToASCII(hexString)+ tcppackage; // Socket client sends data to server in ASCII codes
+//					out.print(command); // Send data to server
+//					out.flush(); // Make sure all data is sent (sends out all data in buffer)
+//					f.getConsole().append("x-coordinate: " + userInput[0]);
+>>>>>>> 3f4a514fb64b08a5b8b4dd7600515065c36b62f1
 
 					/*
 					 * Send ball y coordinate
@@ -65,7 +74,11 @@ public class SpeedSender {
 					command = hexToASCII(hexString)+ tcppackage;
 					out.print(command);
 					out.flush();
+<<<<<<< HEAD
 					f.getConsole().append("     y-coordinate: " + userInput[1] + "\n");
+=======
+					f.getConsole().append("     y-coordinate: " + (userInput[1]/20) + "\n");
+>>>>>>> 3f4a514fb64b08a5b8b4dd7600515065c36b62f1
 
 					Thread.sleep(50);
 				}
