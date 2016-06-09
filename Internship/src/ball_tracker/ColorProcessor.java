@@ -29,17 +29,11 @@ public class ColorProcessor {
 	private Panel livePanel, binPanel, binPanel2;
 	private VideoCapture webcam;
 	private Rect obj_rect = new Rect(0,0,0,0);
-<<<<<<< HEAD
 	private JSlider h_slider1, s_slider1,v_slider1,h_slider2,s_slider2,v_slider2;
 	private JSlider h_slider3, s_slider3,v_slider3,h_slider4,s_slider4,v_slider4;
 	private Mat erode_element;
 	private int x,y,x2,y2;
 	private boolean foundBall = false, foundPlate = false;
-=======
-	private Mat erode_element;
-	private int x,y,x2,y2;
-	private boolean foundBall = false;
->>>>>>> 3f4a514fb64b08a5b8b4dd7600515065c36b62f1
 	private ArrayList<Point> points;
 	List<MatOfPoint> squares;
 	int pointListSize = 10;
@@ -85,13 +79,7 @@ public class ColorProcessor {
 			//			Scalar max2 = new Scalar(h_slider4.getValue(),s_slider4.getValue(),v_slider4.getValue(),0);
 			//			findPlate(src,hsv,bin2,min2,max2,0);
 
-<<<<<<< HEAD
 			//			findSquares(src, squares, min, max);
-=======
-			double[] point = findObj(imgbin,img1);
-			drawTrail(img1, points, pointListSize);
-//			findPlate(imgbin, img1);
->>>>>>> 3f4a514fb64b08a5b8b4dd7600515065c36b62f1
 
 			//show captured frame
 			livePanel.setImageWithMat(src);
@@ -145,11 +133,7 @@ public class ColorProcessor {
 		if(pointList.size() > listSize) pointList.remove(pointList.size() - 1); //never exceed 10 elements
 	}
 
-<<<<<<< HEAD
 	public double[] findObj(Mat src, Mat hsv, Mat bin, Scalar min, Scalar max, int color) {
-=======
-	public double[] findObj(Mat thresholdImage, Mat liveFeed) {
->>>>>>> 3f4a514fb64b08a5b8b4dd7600515065c36b62f1
 		/*
 		 * Given a binary matrix, find object location (simple contour detection in a threshold image)
 		 * Return a double array with x,y coordinates of the midpoint of the object
@@ -167,17 +151,7 @@ public class ColorProcessor {
 			foundBall = true;
 			int index = findLargestContour(contours);
 			obj_rect = Imgproc.boundingRect(contours.get(index)); //make bounding rect around largest vector
-<<<<<<< HEAD
-
-			int x = obj_rect.x; //assign x,y values based on rect   
-			int y = obj_rect.y;
-			int x2 = obj_rect.x + obj_rect.width;
-			int y2 = obj_rect.y + obj_rect.height;
-
-			double midX = (x + x2)/2.;
-			double midY = (y + y2)/2.;
-=======
-			
+	
 			x = obj_rect.x; //assign x,y values based on rect   
 			y = obj_rect.y;
 			x2 = obj_rect.x + obj_rect.width;
@@ -185,7 +159,6 @@ public class ColorProcessor {
 			
 			int midX = (x + x2)/2;
 			int midY = (y + y2)/2;
->>>>>>> 3f4a514fb64b08a5b8b4dd7600515065c36b62f1
 
 			pushToList(new Point(midX, midY), points, pointListSize); //add these points to the ArrayList for the trail
 
@@ -314,10 +287,6 @@ public class ColorProcessor {
 				if(maxCosine < 0.3)
 					squares.add(approx);
 			}
-<<<<<<< HEAD
-			for(int k = 0; k < squares.size(); k++)
-				Imgproc.drawContours(src, squares, -1, new Scalar(0,0,255), 2);
-=======
 
 			x = obj_rect.x;
 			y = obj_rect.y;
@@ -328,7 +297,6 @@ public class ColorProcessor {
 			//		Imgproc.rectangle(liveFeed, new Point(x, y), new Point(x2, y2), new Scalar(0,0,255),2); //draw rectangle around the object
 			//		Imgproc.circle(liveFeed, new Point(midX, midY), 4, new Scalar(255,255,0));
 			//		Imgproc.putText(liveFeed,"(" + obj[0] +","+ obj[1] + ")", new Point(x,y),2,1, new Scalar(255,0,0),2);
->>>>>>> 3f4a514fb64b08a5b8b4dd7600515065c36b62f1
 		}
 	}
 

@@ -98,19 +98,12 @@ public class Setup {
 		//load webcam
 		loadWebcam();
 		//set up each window
-<<<<<<< HEAD
 		setFrame(liveFrame, livePanel, 0,0, videoWidth+30, videoHeight+60, false);
 		setFrame(binFrame, binPanel, videoWidth, 0, videoWidth+30, videoHeight+60, false);
 //		setFrame(binFrame2, binPanel2, (int)(screenWidth/1.5), 0, videoWidth+30, videoHeight+60, false);
 		setFrame(sliderFrame, sliderPanel,(int)(screenWidth*0.05),(int)(screenHeight/1.8),800,400, false);
 //		setFrame(sliderFrame2, sliderPanel2,(int)(screenWidth*0.55),(int)(screenHeight/1.8),800,400, false);
 		setFrame(consoleFrame, consolePanel,0,0,700,700, true);
-=======
-		setFrame(liveFrame, livePanel, screenWidth/2-videoWidth,0, videoWidth+30, videoHeight+60, false);
-		setFrame(binFrame, binPanel, screenWidth/2, 0, videoWidth+30, videoHeight+60, false);
-		setFrame(sliderFrame, sliderPanel,(int)(screenWidth*0.05),screenHeight/2,1500,500, false);
-		setFrame(consoleFrame, consolePanel,0,0,600,600, true);
->>>>>>> 3f4a514fb64b08a5b8b4dd7600515065c36b62f1
 		//set up specifically for window with sliders
 		setSlider(sliderPanel, sliderFrame, h_slider1, s_slider1, v_slider1, h_slider2, s_slider2, v_slider2);
 //		setSlider(sliderPanel2, sliderFrame2, h_slider3, s_slider3, v_slider3, h_slider4, s_slider4, v_slider4);
