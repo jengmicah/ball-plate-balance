@@ -224,12 +224,20 @@ package InternPackage
     Modelica.Mechanics.MultiBody.Sensors.AbsolutePosition absolutePosition annotation(Placement(visible = true, transformation(origin = {127.964, -15}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
     Modelica.Blocks.Interfaces.RealOutput r[3] annotation(Placement(visible = true, transformation(origin = {156.888, 2.529}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {102.107, -14.286}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
     Modelica.Blocks.Math.Gain gain(k = -1) annotation(Placement(visible = true, transformation(origin = {-100.184, 34.816}, extent = {{-5.184, -5.184}, {5.184, 5.184}}, rotation = 0)));
-    ModelPlug.Boards.Arduino arduino annotation(Placement(visible = true, transformation(origin = {-25, 5}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-    ModelPlug.Pins.Servo servo annotation(Placement(visible = true, transformation(origin = {15, -65}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    ModelPlug.Boards.Arduino arduino(Port = "COM3") annotation(Placement(visible = true, transformation(origin = {-25, 5}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    ModelPlug.Pins.Servo servo(Pin = 10) annotation(Placement(visible = true, transformation(origin = {15, -65}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
     ModelPlug.Pins.Servo servo1(Pin = 9) annotation(Placement(visible = true, transformation(origin = {-25, 45}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Math.Add add annotation(Placement(visible = true, transformation(origin = {-70, 47.391}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Math.Add add1 annotation(Placement(visible = true, transformation(origin = {-22.177, -88.486}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Sources.Constant const(k = 0.5) annotation(Placement(visible = true, transformation(origin = {-120, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Sources.Constant const1(k = 0.5) annotation(Placement(visible = true, transformation(origin = {-112.139, -100}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   equation
-    connect(gain.y, servo1.u) annotation(Line(visible = true, origin = {-51.377, 39.908}, points = {{-43.105, -5.092}, {13.364, -5.092}, {13.364, 5.092}, {16.377, 5.092}}, color = {0, 0, 127}));
-    connect(lowpassButterworth1.y, servo.u) annotation(Line(visible = true, origin = {-54.365, -71.932}, points = {{-53.26, 12.825}, {-50.26, 12.825}, {-50.26, -19.756}, {47.207, -19.756}, {47.207, 6.932}, {59.365, 6.932}}, color = {0, 0, 127}));
+    connect(add.y, servo1.u) annotation(Line(visible = true, origin = {-42.506, 46.196}, points = {{-16.494, 1.196}, {4.494, 1.196}, {4.494, -1.196}, {7.506, -1.196}}, color = {0, 0, 127}));
+    connect(gain.y, add.u2) annotation(Line(visible = true, origin = {-86.62, 38.104}, points = {{-7.861, -3.288}, {1.62, -3.288}, {1.62, 3.288}, {4.62, 3.288}}, color = {0, 0, 127}));
+    connect(const.y, add.u1) annotation(Line(visible = true, origin = {-90.25, 56.696}, points = {{-18.75, 3.304}, {5.25, 3.304}, {5.25, -3.304}, {8.25, -3.304}}, color = {0, 0, 127}));
+    connect(add1.y, servo.u) annotation(Line(visible = true, origin = {-0.551, -76.743}, points = {{-10.627, -11.743}, {2.538, -11.743}, {2.538, 11.743}, {5.551, 11.743}}, color = {0, 0, 127}));
+    connect(const1.y, add1.u2) annotation(Line(visible = true, origin = {-52.418, -97.243}, points = {{-48.721, -2.757}, {15.24, -2.757}, {15.24, 2.757}, {18.24, 2.757}}, color = {0, 0, 127}));
+    connect(lowpassButterworth1.y, add1.u1) annotation(Line(visible = true, origin = {-92.366, -73.864}, points = {{-15.259, 14.757}, {-12.259, 14.757}, {-12.259, -6.136}, {-9.207, -6.136}, {-9.207, -8.622}, {58.189, -8.622}}, color = {0, 0, 127}));
     connect(servo.pinConnector, arduino.boardConnector) annotation(Line(visible = true, origin = {6.205, -28.2}, points = {{18.795, -36.8}, {21.807, -36.8}, {21.807, 20.2}, {-31.205, 20.2}, {-31.205, 33.2}}));
     connect(servo1.pinConnector, arduino.boardConnector) annotation(Line(visible = true, origin = {-17.795, 26.2}, points = {{2.795, 18.8}, {5.808, 18.8}, {5.808, -8.2}, {-7.205, -8.2}, {-7.205, -21.2}}));
     connect(gain.y, Z_Rotation_cmd.phi_ref) annotation(Line(visible = true, origin = {-95.741, 23.777}, points = {{1.259, 11.039}, {4.259, 11.039}, {4.259, 2.738}, {-4.259, 2.738}, {-4.259, -13.777}, {-1.259, -13.777}}, color = {0, 0, 127}));
@@ -275,5 +283,19 @@ package InternPackage
     connect(Zpulse_Move_in_X.y, Z_PID.u_s) annotation(Line(visible = true, origin = {-72.667, 34.846}, points = {{-16.083, -2.346}, {4.361, -2.346}, {4.361, 2.346}, {7.361, 2.346}}, color = {0, 0, 127}));
     annotation(Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = true, initialScale = 0.1, grid = {10, 10}), graphics = {Rectangle(visible = true, origin = {0, -1.638}, fillColor = {0, 255, 0}, fillPattern = FillPattern.Solid, lineThickness = 1, extent = {{-95.461, -93.823}, {95.461, 93.823}})}), experiment(StopTime = 30, __Wolfram_SynchronizeWithRealTime = false), Diagram(coordinateSystem(extent = {{-148.5, -105}, {148.5, 105}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})));
   end Controlled_Plate_Model;
+
+  model servoReset
+    Modelica.Blocks.Sources.Constant const(k = 0.5) annotation(Placement(visible = true, transformation(origin = {-87.373, 35}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Sources.Constant const1(k = 0.5) annotation(Placement(visible = true, transformation(origin = {-85, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    ModelPlug.Boards.Arduino arduino(Port = "COM3") annotation(Placement(visible = true, transformation(origin = {33.455, 5}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    ModelPlug.Pins.Servo servo(Pin = 10) annotation(Placement(visible = true, transformation(origin = {-20, 37.028}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    ModelPlug.Pins.Servo servo1(Pin = 9) annotation(Placement(visible = true, transformation(origin = {-20, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  equation
+    connect(servo1.pinConnector, arduino.boardConnector) annotation(Line(visible = true, origin = {15.821, -12.5}, points = {{-25.821, -17.5}, {4.094, -17.5}, {4.094, 17.5}, {17.634, 17.5}}));
+    connect(servo.pinConnector, arduino.boardConnector) annotation(Line(visible = true, origin = {15.821, 21.014}, points = {{-25.821, 16.014}, {4.094, 16.014}, {4.094, -16.014}, {17.634, -16.014}}));
+    connect(const1.y, servo1.u) annotation(Line(visible = true, origin = {-52, -30}, points = {{-22, 0}, {22, 0}}, color = {0, 0, 127}));
+    connect(const.y, servo.u) annotation(Line(visible = true, origin = {-43.1, 36.014}, points = {{-33.274, -1.014}, {10.087, -1.014}, {10.087, 1.014}, {13.1, 1.014}}, color = {0, 0, 127}));
+    annotation(Diagram(coordinateSystem(extent = {{-148.5, -105}, {148.5, 105}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})));
+  end servoReset;
   annotation(Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = true, initialScale = 0.1, grid = {10, 10}), graphics = {Rectangle(visible = true, fillColor = {0, 255, 0}, fillPattern = FillPattern.Solid, extent = {{-90, -90}, {90, 90}}), Text(visible = true, origin = {2.716, 34.549}, extent = {{-79.658, -27.5}, {79.658, 27.5}}, textString = "Interns", textStyle = {TextStyle.Bold}), Text(visible = true, origin = {0, -50}, extent = {{-83.727, -32.071}, {83.727, 32.071}}, textString = "2016", textStyle = {TextStyle.Bold})}), Diagram(coordinateSystem(extent = {{-148.5, -105}, {148.5, 105}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})));
 end InternPackage;
