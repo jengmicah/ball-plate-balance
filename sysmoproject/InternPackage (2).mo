@@ -50,7 +50,9 @@ package InternPackage
     Modelica.Mechanics.MultiBody.Joints.Prismatic Move_in_Z(n = {0, 0, 1}, animation = false, useAxisFlange = true) annotation(Placement(visible = true, transformation(origin = {21.775, 5}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
     Modelica.Mechanics.Rotational.Components.IdealRollingWheel Z_Dir_Rolling_Constraint(radius = BallRadius) annotation(Placement(visible = true, transformation(origin = {55, -54.078}, extent = {{14.078, -14.078}, {-14.078, 14.078}}, rotation = 0)));
     Components.PlateInput plateInput annotation(Placement(visible = true, transformation(origin = {-130, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Mechanics.MultiBody.Visualizers.FixedFrame fixedFrame annotation(Placement(visible = true, transformation(origin = {140, -56.916}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   equation
+    connect(fixedFrame.frame_a, Roll_in_Z.frame_b) annotation(Line(visible = true, origin = {109.006, -40.958}, points = {{20.994, -15.958}, {-5.994, -15.958}, {-5.994, 15.958}, {-9.006, 15.958}}));
     connect(Plate_Z_Rotate.support, Z_Rotation_cmd.support) annotation(Line(visible = true, origin = {-73, -6.363}, points = {{12, -8.637}, {12, 1.137}, {-12, 1.137}, {-12, 6.363}}));
     connect(plateInput.y, Z_Rotation_cmd.phi_ref) annotation(Line(visible = true, origin = {-106.75, 25}, points = {{-13.25, 15}, {1.75, 15}, {1.75, -15}, {9.75, -15}}, color = {0, 0, 127}));
     connect(X_Rotation_cmd.phi_ref, plateInput.y1) annotation(Line(visible = true, points = {{13.195, -50}, {-3.394, -50}, {-3.394, 50}, {-6.407, 50}}, color = {0, 0, 127}, origin = {-113.593, -15}));
@@ -76,10 +78,10 @@ package InternPackage
 
   model NewBallandBeam_1D_Graphic
     parameter Real BallRadius = 0.02;
-    BallAndBeam.Components.Base base(fixedRotation.n = {-1, 0, 0}) annotation(Placement(visible = true, transformation(origin = {-42.511, -40}, extent = {{-10, -10}, {10, 10}}, rotation = -1080)));
+    BallAndBeamNew.Components.Base base(fixedRotation.n = {-1, 0, 0}) annotation(Placement(visible = true, transformation(origin = {-42.511, -40}, extent = {{-10, -10}, {10, 10}}, rotation = -1080)));
     inner Modelica.Mechanics.MultiBody.World world(animateWorld = false, animateGravity = false) annotation(Placement(visible = true, transformation(origin = {-102.511, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-    BallAndBeam.Components.Beam beam annotation(Placement(visible = true, transformation(origin = {-42.511, 40}, extent = {{-10, -10}, {10, 10}}, rotation = -720)));
-    BallAndBeam.Components.Revolute revolute annotation(Placement(visible = true, transformation(origin = {-2.511, 0}, extent = {{-10.483, -10.483}, {10.483, 10.483}}, rotation = 0)));
+    BallAndBeamNew.Components.Beam beam annotation(Placement(visible = true, transformation(origin = {-42.511, 40}, extent = {{-10, -10}, {10, 10}}, rotation = -720)));
+    BallAndBeamNew.Components.Revolute revolute annotation(Placement(visible = true, transformation(origin = {-2.511, 0}, extent = {{-10.483, -10.483}, {10.483, 10.483}}, rotation = 0)));
     Modelica.Mechanics.MultiBody.Parts.FixedTranslation revToBeam(r = {-0.0165, 0.055, -0.1625}, animation = false) annotation(Placement(visible = true, transformation(origin = {-2.511, 40}, extent = {{-10, -10}, {10, 10}}, rotation = -630)));
     Modelica.Mechanics.MultiBody.Parts.FixedTranslation baseToRev(r = {0.0165, -0.055, 0.1625}, animation = false) annotation(Placement(visible = true, transformation(origin = {-2.511, -40}, extent = {{-10, -10}, {10, 10}}, rotation = -270)));
     Modelica.Mechanics.Rotational.Sources.Position position(f_crit = 1) annotation(Placement(visible = true, transformation(origin = {-44.206, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -99,10 +101,10 @@ package InternPackage
   end NewBallandBeam_1D_Graphic;
 
   model ACKBeam
-    BallAndBeam.Components.Base base(fixedRotation.n = {-1, 0, 0}) annotation(Placement(visible = true, transformation(origin = {-42.511, -40}, extent = {{-10, -10}, {10, 10}}, rotation = -1080)));
+    BallAndBeamNew.Components.Base base(fixedRotation.n = {-1, 0, 0}) annotation(Placement(visible = true, transformation(origin = {-42.511, -40}, extent = {{-10, -10}, {10, 10}}, rotation = -1080)));
     inner Modelica.Mechanics.MultiBody.World world(animateWorld = false, animateGravity = false) annotation(Placement(visible = true, transformation(origin = {-102.511, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-    BallAndBeam.Components.Beam beam annotation(Placement(visible = true, transformation(origin = {-42.511, 40}, extent = {{-10, -10}, {10, 10}}, rotation = -720)));
-    BallAndBeam.Components.Revolute revolute annotation(Placement(visible = true, transformation(origin = {-2.511, 0}, extent = {{-10.483, -10.483}, {10.483, 10.483}}, rotation = 0)));
+    BallAndBeamNew.Components.Beam beam annotation(Placement(visible = true, transformation(origin = {-42.511, 40}, extent = {{-10, -10}, {10, 10}}, rotation = -720)));
+    BallAndBeamNew.Components.Revolute revolute annotation(Placement(visible = true, transformation(origin = {-2.511, 0}, extent = {{-10.483, -10.483}, {10.483, 10.483}}, rotation = 0)));
     Modelica.Mechanics.MultiBody.Parts.FixedTranslation revToBeam(r = {-0.0165, 0.055, -0.1625}, animation = false) annotation(Placement(visible = true, transformation(origin = {-2.511, 40}, extent = {{-10, -10}, {10, 10}}, rotation = -630)));
     Modelica.Mechanics.MultiBody.Parts.FixedTranslation baseToRev(r = {0.0165, -0.055, 0.1625}, animation = false) annotation(Placement(visible = true, transformation(origin = {-2.511, -40}, extent = {{-10, -10}, {10, 10}}, rotation = -270)));
     Modelica.Mechanics.Rotational.Sources.Position position(f_crit = 1) annotation(Placement(visible = true, transformation(origin = {-44.206, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -196,5 +198,112 @@ package InternPackage
     end PlateInput;
     annotation(Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = true, initialScale = 0.1, grid = {10, 10}), graphics = {Rectangle(visible = true, origin = {-2.037, -1.165}, fillColor = {255, 255, 255}, extent = {{-90.294, -91.165}, {90.294, 91.165}})}), Diagram(coordinateSystem(extent = {{-148.5, -105}, {148.5, 105}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})));
   end Components;
+
+  model NewBallandPlate_2D_controlled
+    inner Modelica.Mechanics.MultiBody.World world annotation(Placement(visible = true, transformation(origin = {-116.806, 85}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Mechanics.MultiBody.Parts.BodyBox Plate(length = 3, width = 3, height = 0.01, widthDirection = {0, 0, 1}, r_shape = {-1.5, 0, 0}, r = {0, 0, 0}) annotation(Placement(visible = true, transformation(origin = {-7.221, -25}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Mechanics.MultiBody.Joints.Revolute Plate_Z_Rotate(useAxisFlange = true, n = {0, 0, 1}) annotation(Placement(visible = true, transformation(origin = {-42.239, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Mechanics.Rotational.Sources.Position Z_Rotation_cmd(useSupport = true, phi(fixed = false)) annotation(Placement(visible = true, transformation(origin = {-90, 6.963}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Mechanics.MultiBody.Parts.Fixed fixed annotation(Placement(visible = true, transformation(origin = {-90, -25}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Mechanics.MultiBody.Parts.Body Ball(r_CM = {0, 0, 0}, m = 1, sphereDiameter = 0.2, r_0.start = {0, 0, 0}, I_11 = 2 / 5 * Ball.m * BallRadius ^ 2, I_22 = 2 / 5 * Ball.m * BallRadius ^ 2, I_33 = 2 / 5 * Ball.m * BallRadius ^ 2, sphereColor = {155, 0, 0}) annotation(Placement(visible = true, transformation(origin = {127.244, -32.839}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Mechanics.MultiBody.Joints.Prismatic Move_in_X(n = {1, 0, 0}, animation = false, useAxisFlange = true) annotation(Placement(visible = true, transformation(origin = {55, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Mechanics.MultiBody.Joints.Revolute Roll_in_X(useAxisFlange = true, n = {0, 0, -1}) annotation(Placement(visible = true, transformation(origin = {121.987, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Mechanics.MultiBody.Parts.FixedTranslation Ball_CM(r = {0, BallRadius, 0}, animation = false) annotation(Placement(visible = true, transformation(origin = {85, 8.492}, extent = {{-10, -10}, {10, 10}}, rotation = -360)));
+    parameter Real BallRadius = 0.1;
+    Modelica.Mechanics.Rotational.Components.IdealRollingWheel X_Dir_Rolling_Constraint(radius = BallRadius) annotation(Placement(visible = true, transformation(origin = {98.567, 65}, extent = {{13.567, -13.567}, {-13.567, 13.567}}, rotation = 0)));
+    Modelica.Mechanics.MultiBody.Joints.Revolute Plate_X_Rotate(useAxisFlange = true, n = {1, 0, 0}) annotation(Placement(visible = true, transformation(origin = {-33.296, -45}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
+    Modelica.Mechanics.Rotational.Sources.Position X_Rotation_cmd(useSupport = true, phi(fixed = false)) annotation(Placement(visible = true, transformation(origin = {-76.618, -65}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Mechanics.MultiBody.Joints.Revolute Roll_in_Z(useAxisFlange = true, n = {1, 0, 0}) annotation(Placement(visible = true, transformation(origin = {90, -25}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
+    Modelica.Mechanics.MultiBody.Joints.Prismatic Move_in_Z(n = {0, 0, 1}, animation = false, useAxisFlange = true) annotation(Placement(visible = true, transformation(origin = {21.775, 5}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
+    Modelica.Mechanics.Rotational.Components.IdealRollingWheel Z_Dir_Rolling_Constraint(radius = BallRadius) annotation(Placement(visible = true, transformation(origin = {55, -54.078}, extent = {{14.078, -14.078}, {-14.078, 14.078}}, rotation = 0)));
+    Modelica.Mechanics.MultiBody.Visualizers.FixedFrame fixedFrame annotation(Placement(visible = true, transformation(origin = {120, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Continuous.LowpassButterworth lowpassButterworth(f = 5) annotation(Placement(visible = true, transformation(origin = {-119.107, 25}, extent = {{-5.893, -5.893}, {5.893, 5.893}}, rotation = 0)));
+    Modelica.Blocks.Continuous.LowpassButterworth lowpassButterworth1(f = 5) annotation(Placement(visible = true, transformation(origin = {-114.107, -59.107}, extent = {{-5.893, -5.893}, {5.893, 5.893}}, rotation = 0)));
+    Modelica.Blocks.Interfaces.RealInput Zin annotation(Placement(visible = true, transformation(origin = {-150, 25}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-97.643, 23.81}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+    Modelica.Blocks.Interfaces.RealInput Xin annotation(Placement(visible = true, transformation(origin = {-151.629, -60}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-95.319, -57.143}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+    Modelica.Mechanics.MultiBody.Sensors.AbsolutePosition absolutePosition annotation(Placement(visible = true, transformation(origin = {131.645, -15}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Interfaces.RealOutput r[3] annotation(Placement(visible = true, transformation(origin = {160, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {102.107, -14.286}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Math.Gain gain(k = -1) annotation(Placement(visible = true, transformation(origin = {-100.184, 34.816}, extent = {{-5.184, -5.184}, {5.184, 5.184}}, rotation = 0)));
+    ModelPlug.Boards.Arduino arduino(Port = "COM5") annotation(Placement(visible = true, transformation(origin = {-18.006, 5}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    ModelPlug.Pins.Servo servo(Pin = 10) annotation(Placement(visible = true, transformation(origin = {11.687, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    ModelPlug.Pins.Servo servo1(Pin = 9) annotation(Placement(visible = true, transformation(origin = {-25, 45}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    ConvertRange convertRange annotation(Placement(visible = true, transformation(origin = {-60, 40}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    ConvertRange convertRange1 annotation(Placement(visible = true, transformation(origin = {-60, -91.535}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  equation
+    connect(convertRange1.y, servo.u) annotation(Line(visible = true, origin = {-12.849, -81.386}, points = {{-37.582, -11.386}, {11.523, -11.386}, {11.523, 11.386}, {14.536, 11.386}}, color = {0, 0, 127}));
+    connect(convertRange1.u, lowpassButterworth1.y) annotation(Line(visible = true, origin = {-91.594, -75}, points = {{23.594, -15.71}, {-8.406, -15.802}, {-8.406, 15.802}, {-16.031, 15.893}}, color = {0, 0, 127}));
+    connect(convertRange.y, servo1.u) annotation(Line(visible = true, origin = {-40.364, 41.881}, points = {{-10.067, -3.119}, {2.351, -3.119}, {2.351, 3.119}, {5.364, 3.119}}, color = {0, 0, 127}));
+    connect(lowpassButterworth.y, convertRange.u) annotation(Line(visible = true, origin = {-76.663, 32.912}, points = {{-35.962, -7.912}, {8.656, -7.912}, {8.656, 7.912}, {8.663, 7.912}}, color = {0, 0, 127}));
+    connect(servo.pinConnector, arduino.boardConnector) annotation(Line(visible = true, origin = {7.015, -30.2}, points = {{14.672, -39.8}, {17.685, -39.8}, {17.685, 22.2}, {-25.021, 22.2}, {-25.021, 35.2}}));
+    connect(servo1.pinConnector, arduino.boardConnector) annotation(Line(visible = true, origin = {-14.997, 26.2}, points = {{-0.003, 18.8}, {3.01, 18.8}, {3.01, -8.2}, {-3.008, -8.2}, {-3.008, -21.2}}));
+    connect(gain.y, Z_Rotation_cmd.phi_ref) annotation(Line(visible = true, origin = {-98.241, 22.765}, points = {{3.759, 12.051}, {6.759, 12.051}, {6.759, 3.751}, {-6.759, 3.751}, {-6.759, -15.802}, {-3.759, -15.802}}, color = {0, 0, 127}));
+    connect(lowpassButterworth.y, gain.u) annotation(Line(visible = true, origin = {-109.46, 29.908}, points = {{-3.165, -4.908}, {0.055, -4.908}, {0.055, 4.908}, {3.055, 4.908}}, color = {0, 0, 127}));
+    connect(lowpassButterworth1.y, X_Rotation_cmd.phi_ref) annotation(Line(visible = true, origin = {-94.87, -62.053}, points = {{-12.755, 2.947}, {3.252, 2.947}, {3.252, -2.947}, {6.252, -2.947}}, color = {0, 0, 127}));
+    connect(absolutePosition.frame_a, Move_in_X.frame_b) annotation(Line(visible = true, origin = {80.774, 2.5}, points = {{40.871, -17.5}, {-12.549, -17.5}, {-12.549, 17.5}, {-15.774, 17.5}}));
+    connect(absolutePosition.r, r) annotation(Line(visible = true, origin = {154.215, -6.667}, points = {{-11.57, -8.333}, {5.785, -8.333}, {5.785, 16.667}}, color = {0, 0, 127}));
+    connect(lowpassButterworth1.u, Xin) annotation(Line(visible = true, origin = {-134.759, -59.405}, points = {{13.58, 0.298}, {-6.79, 0.298}, {-16.87, -0.595}}, color = {0, 0, 127}));
+    connect(lowpassButterworth.u, Zin) annotation(Line(visible = true, origin = {-138.089, 25}, points = {{11.911, 0}, {-11.911, 0}}, color = {0, 0, 127}));
+    connect(fixedFrame.frame_a, Roll_in_Z.frame_b) annotation(Line(visible = true, origin = {104.006, -42.5}, points = {{5.994, -17.5}, {-0.994, -17.5}, {-0.994, 17.5}, {-4.006, 17.5}}));
+    connect(Plate_Z_Rotate.support, Z_Rotation_cmd.support) annotation(Line(visible = true, origin = {-64.497, 2.815}, points = {{16.258, 7.185}, {16.258, 10.41}, {9.245, 10.41}, {9.245, -11.077}, {-25.503, -11.077}, {-25.503, -5.852}}));
+    connect(Z_Dir_Rolling_Constraint.flangeT, Move_in_Z.axis) annotation(Line(visible = true, origin = {35.174, -27.539}, points = {{5.748, -26.539}, {-0.174, -26.539}, {-0.174, 26.539}, {-5.399, 26.539}}, color = {0, 127, 0}));
+    connect(Roll_in_Z.axis, Z_Dir_Rolling_Constraint.flangeR) annotation(Line(visible = true, origin = {83.026, -47.718}, points = {{6.974, 12.718}, {6.974, -6.359}, {-13.948, -6.359}}));
+    connect(Plate.frame_b, Move_in_Z.frame_a) annotation(Line(visible = true, origin = {8.019, -10}, points = {{-5.24, -15}, {0.743, -15}, {0.743, 15}, {3.755, 15}}));
+    connect(Move_in_Z.frame_b, Move_in_X.frame_a) annotation(Line(visible = true, origin = {40.187, 12.5}, points = {{-8.413, -7.5}, {1.8, -7.5}, {1.8, 7.5}, {4.813, 7.5}}));
+    connect(Roll_in_Z.frame_b, Ball.frame_a) annotation(Line(visible = true, origin = {106.811, -28.919}, points = {{-6.811, 3.919}, {-1.811, 3.919}, {-1.811, -3.919}, {10.433, -3.919}}));
+    connect(Roll_in_X.frame_b, Roll_in_Z.frame_a) annotation(Line(visible = true, origin = {100.286, -7.265}, points = {{31.701, 27.265}, {33.085, 17.265}, {33.085, 0.469}, {-36.998, 0.469}, {-36.998, -17.735}, {-20.286, -17.735}}));
+    connect(Plate_X_Rotate.support, X_Rotation_cmd.support) annotation(Line(visible = true, origin = {-57.957, -72.612}, points = {{18.661, 17.612}, {18.661, -7.612}, {-18.661, -7.612}, {-18.661, -2.388}}));
+    connect(Plate_X_Rotate.frame_b, Plate.frame_a) annotation(Line(visible = true, origin = {-19.352, -35}, points = {{-3.943, -10}, {0.906, -10}, {0.906, 10}, {2.131, 10}}));
+    connect(Plate_Z_Rotate.frame_b, Plate_X_Rotate.frame_a) annotation(Line(visible = true, origin = {-37.767, -19.333}, points = {{5.528, 19.333}, {8.541, 19.333}, {8.541, 6.333}, {-8.541, 6.333}, {-8.541, -25.667}, {-5.528, -25.667}}));
+    connect(X_Rotation_cmd.flange, Plate_X_Rotate.axis) annotation(Line(visible = true, origin = {-42.509, -61.554}, points = {{-24.109, -3.446}, {12.509, -3.446}, {12.509, 3.446}, {9.213, 6.554}}));
+    connect(Move_in_X.axis, X_Dir_Rolling_Constraint.flangeT) annotation(Line(visible = true, origin = {72, 45.5}, points = {{-9, -19.5}, {-2, -19.5}, {-2, 19.5}, {13, 19.5}}, color = {0, 127, 0}));
+    connect(X_Dir_Rolling_Constraint.flangeR, Roll_in_X.axis) annotation(Line(visible = true, origin = {118.703, 53.333}, points = {{-6.569, 11.667}, {3.284, 11.667}, {3.284, -23.333}}));
+    connect(Ball_CM.frame_b, Roll_in_X.frame_a) annotation(Line(visible = true, origin = {106.234, 14.246}, points = {{-11.234, -5.754}, {2.741, -5.754}, {2.741, 5.754}, {5.753, 5.754}}));
+    connect(Move_in_X.frame_b, Ball_CM.frame_a) annotation(Line(visible = true, origin = {71, 14.246}, points = {{-6, 5.754}, {1, 5.754}, {1, -5.754}, {4, -5.754}}));
+    connect(fixed.frame_b, Plate_Z_Rotate.frame_a) annotation(Line(visible = true, origin = {-60.686, -12.5}, points = {{-19.314, -12.5}, {5.434, -12.5}, {5.434, 12.5}, {8.446, 12.5}}));
+    connect(Z_Rotation_cmd.flange, Plate_Z_Rotate.axis) annotation(Line(visible = true, origin = {-63.691, 10.075}, points = {{-16.309, -3.112}, {-13.297, -3.112}, {-13.297, 3.15}, {21.452, 3.15}, {21.452, -0.075}}));
+    annotation(Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = true, initialScale = 0.1, grid = {10, 10}), graphics = {Rectangle(visible = true, fillColor = {0, 255, 0}, fillPattern = FillPattern.HorizontalCylinder, extent = {{-90, -90}, {90, 90}}), Text(visible = true, origin = {2.263, 15.993}, extent = {{-79.658, -27.5}, {79.658, 27.5}}, textString = "Plate", textStyle = {TextStyle.Bold}), Text(visible = true, origin = {0, -32.071}, extent = {{-83.727, -32.071}, {83.727, 32.071}}, textString = "2D", textStyle = {TextStyle.Bold})}), experiment(StopTime = 10, __Wolfram_SynchronizeWithRealTime = false), Diagram(coordinateSystem(extent = {{-148.5, -105}, {148.5, 105}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})));
+  end NewBallandPlate_2D_controlled;
+
+  model Controlled_Plate_Model
+    Modelica.Blocks.Sources.Pulse Zpulse_Move_in_X(offset = -0.5, amplitude = 1, startTime = 5, width = 50, period = 20, nperiod = -1) annotation(Placement(visible = true, transformation(origin = {-102.5, 32.5}, extent = {{-12.5, -12.5}, {12.5, 12.5}}, rotation = 0)));
+    NewBallandPlate_2D_controlled Ball_Model annotation(Placement(visible = true, transformation(origin = {32.012, 15}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Continuous.LimPID Z_PID(controllerType = Modelica.Blocks.Types.SimpleController.PD, Td = 0.8, k = 0.5, yMax = 0.2) annotation(Placement(visible = true, transformation(origin = {-53.306, 37.191}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
+    Modelica.Blocks.Sources.Pulse Xpulse_Move_in_Z(offset = -0.25, amplitude = 0.5, startTime = 5, width = 50, period = 20, nperiod = -1) annotation(Placement(visible = true, transformation(origin = {-100.847, -19.153}, extent = {{-14.153, -14.153}, {14.153, 14.153}}, rotation = 0)));
+    Modelica.Blocks.Continuous.LimPID X_PID(controllerType = Modelica.Blocks.Types.SimpleController.PD, Td = 0.8, k = 0.5, yMax = 0.2) annotation(Placement(visible = true, transformation(origin = {-50, -12.809}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Interfaces.RealInput y annotation(Placement(visible = true, transformation(origin = {-58.896, -43.896}, extent = {{-16.104, -16.104}, {16.104, 16.104}}, rotation = 0), iconTransformation(origin = {-37.037, -38.095}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+    Modelica.Blocks.Interfaces.RealInput x annotation(Placement(visible = true, transformation(origin = {-61.104, 66.104}, extent = {{-16.104, -16.104}, {16.104, 16.104}}, rotation = 0), iconTransformation(origin = {-29.037, -46.095}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+  equation
+    connect(x, Z_PID.u_m) annotation(Line(visible = true, origin = {-58.504, 54.829}, points = {{-2.599, 11.275}, {-2.599, -5.638}, {5.198, -5.638}}, color = {0, 0, 127}));
+    connect(X_PID.u_m, y) annotation(Line(visible = true, origin = {-54.448, -30.573}, points = {{4.448, 5.764}, {4.448, 3.78}, {-4.448, 3.78}, {-4.448, -13.324}}, color = {0, 0, 127}));
+    connect(X_PID.y, Ball_Model.Xin) annotation(Line(visible = true, origin = {-0.843, -1.762}, points = {{-38.157, -11.047}, {7.417, -11.047}, {7.417, 11.047}, {23.323, 11.048}}, color = {0, 0, 127}));
+    connect(Xpulse_Move_in_Z.y, X_PID.u_s) annotation(Line(visible = true, origin = {-69.32, -15.981}, points = {{-15.959, -3.172}, {4.32, -3.172}, {4.32, 3.172}, {7.32, 3.172}}, color = {0, 0, 127}));
+    connect(Z_PID.y, Ball_Model.Zin) annotation(Line(visible = true, origin = {-2.515, 27.286}, points = {{-39.791, 9.905}, {7.515, 9.905}, {7.515, -9.905}, {24.763, -9.905}}, color = {0, 0, 127}));
+    connect(Zpulse_Move_in_X.y, Z_PID.u_s) annotation(Line(visible = true, origin = {-72.667, 34.846}, points = {{-16.083, -2.346}, {4.361, -2.346}, {4.361, 2.346}, {7.361, 2.346}}, color = {0, 0, 127}));
+    annotation(experiment(StopTime = 30, Interval = 0.01, __Wolfram_SynchronizeWithRealTime = true), Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = true, initialScale = 0.1, grid = {10, 10}), graphics = {Rectangle(visible = true, origin = {0, -1.638}, fillColor = {0, 255, 0}, fillPattern = FillPattern.Solid, lineThickness = 1, extent = {{-95.461, -93.823}, {95.461, 93.823}})}), Diagram(coordinateSystem(extent = {{-148.5, -105}, {148.5, 105}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})));
+  end Controlled_Plate_Model;
+
+  model ConvertRange
+    Modelica.Blocks.Interfaces.RealInput u annotation(Placement(visible = true, transformation(origin = {-147.5, 37.5}, extent = {{-37.5, -37.5}, {37.5, 37.5}}, rotation = 0), iconTransformation(origin = {-80, 8.246}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
+    Modelica.Blocks.Math.Add add annotation(Placement(visible = true, transformation(origin = {-82.826, 12.03}, extent = {{-15, -15}, {15, 15}}, rotation = 0)));
+    Modelica.Blocks.Sources.Constant const(k = 0.2) annotation(Placement(visible = true, transformation(origin = {-127.081, -2.842}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Sources.Constant const2(k = 0.5) annotation(Placement(visible = true, transformation(origin = {-130, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Math.Product product1 annotation(Placement(visible = true, transformation(origin = {-30.876, -8.376}, extent = {{-11.624, -11.624}, {11.624, 11.624}}, rotation = 0)));
+    Modelica.Blocks.Math.Division division annotation(Placement(visible = true, transformation(origin = {41.669, -31.669}, extent = {{-21.669, -21.669}, {21.669, 21.669}}, rotation = 0)));
+    Modelica.Blocks.Sources.Constant const1(k = 0.4) annotation(Placement(visible = true, transformation(origin = {-35, -55}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Math.Add add1 annotation(Placement(visible = true, transformation(origin = {95, -11.079}, extent = {{-16.079, -16.079}, {16.079, 16.079}}, rotation = 0)));
+    Modelica.Blocks.Sources.Constant const3(k = 0.25) annotation(Placement(visible = true, transformation(origin = {30, 33.376}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Interfaces.RealOutput y annotation(Placement(visible = true, transformation(origin = {132.18, 47.18}, extent = {{-17.18, -17.18}, {17.18, 17.18}}, rotation = 0), iconTransformation(origin = {95.693, -12.374}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  equation
+    connect(add1.y, y) annotation(Line(visible = true, origin = {125.682, 8.341}, points = {{-12.996, -19.42}, {6.498, -19.42}, {6.498, 38.84}}, color = {0, 0, 127}));
+    connect(const3.y, add1.u1) annotation(Line(visible = true, origin = {65.529, 15.972}, points = {{-24.529, 17.404}, {7.176, 17.404}, {7.176, -17.404}, {10.176, -17.404}}, color = {0, 0, 127}));
+    connect(division.y, add1.u2) annotation(Line(visible = true, origin = {71.655, -26.198}, points = {{-6.151, -5.471}, {1.05, -5.471}, {1.05, 5.471}, {4.05, 5.471}}, color = {0, 0, 127}));
+    connect(const1.y, division.u2) annotation(Line(visible = true, origin = {4.25, -49.835}, points = {{-28.25, -5.165}, {8.417, -5.165}, {8.417, 5.165}, {11.417, 5.165}}, color = {0, 0, 127}));
+    connect(product1.y, division.u1) annotation(Line(visible = true, origin = {5.727, -13.522}, points = {{-23.817, 5.146}, {6.939, 5.146}, {6.939, -5.146}, {9.939, -5.146}}, color = {0, 0, 127}));
+    connect(product1.u2, const2.y) annotation(Line(visible = true, origin = {-98.956, -32.675}, points = {{54.131, 17.325}, {-17.044, 17.325}, {-17.044, -17.325}, {-20.044, -17.325}}, color = {0, 0, 127}));
+    connect(add.y, product1.u1) annotation(Line(visible = true, origin = {-51.7, 5.314}, points = {{-14.626, 6.716}, {3.875, 6.716}, {3.875, -6.716}, {6.875, -6.716}}, color = {0, 0, 127}));
+    connect(const.y, add.u2) annotation(Line(visible = true, origin = {-106.14, 0.094}, points = {{-9.941, -2.936}, {2.314, -2.936}, {2.314, 2.936}, {5.314, 2.936}}, color = {0, 0, 127}));
+    connect(add.u1, u) annotation(Line(visible = true, origin = {-115.16, 29.265}, points = {{14.334, -8.235}, {9.003, -8.235}, {9.003, 8.235}, {-32.34, 8.235}}, color = {0, 0, 127}));
+    annotation(Diagram(coordinateSystem(extent = {{-148.5, -105}, {148.5, 105}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})));
+  end ConvertRange;
   annotation(Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}, preserveAspectRatio = true, initialScale = 0.1, grid = {10, 10}), graphics = {Rectangle(visible = true, fillColor = {0, 255, 0}, fillPattern = FillPattern.Solid, extent = {{-90, -90}, {90, 90}}), Text(visible = true, origin = {2.716, 34.549}, extent = {{-79.658, -27.5}, {79.658, 27.5}}, textString = "Interns", textStyle = {TextStyle.Bold}), Text(visible = true, origin = {0, -50}, extent = {{-83.727, -32.071}, {83.727, 32.071}}, textString = "2016", textStyle = {TextStyle.Bold})}), Diagram(coordinateSystem(extent = {{-148.5, -105}, {148.5, 105}}, preserveAspectRatio = true, initialScale = 0.1, grid = {5, 5})));
 end InternPackage;

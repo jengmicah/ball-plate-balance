@@ -32,27 +32,28 @@ import org.opencv.videoio.Videoio;
  * something is altered on the frame (a slider is moved, or button is pressed)
  */
 public class Setup {
-	private int camNum = 0;
-	private JFrame liveFrame, binFrame, sliderFrame, consoleFrame;
-	private Panel livePanel, binPanel;
-	private JPanel sliderPanel, consolePanel;
-	private VideoCapture webcam;
-	private int videoWidth, videoHeight;
-	private boolean run = true;
-	private JSlider h_slider, s_slider, v_slider, h_slider2, s_slider2, v_slider2, blur_slider, erode_slider;
-	private int h_max = 180; //max hue
-	private int s_max = 255; //max saturation
-	private int v_max = 255; //max value/brightness
-	private int min = 0;
-	private JTextField textField;
-	private JTextArea console;
-	private ChangeListener listener;
-	private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	private int screenWidth = (int)screenSize.getWidth();
-	private int screenHeight = (int)screenSize.getHeight();
-	private JButton button;
-	private ColorProcessor proc;
+	int camNum = 0;
+	JFrame liveFrame, binFrame, sliderFrame, consoleFrame;
+	Panel livePanel, binPanel;
+	JPanel sliderPanel, consolePanel;
+	VideoCapture webcam;
+	int videoWidth, videoHeight;
+	boolean run = true;
+	public JSlider h_slider1, s_slider1, v_slider1, h_slider2, s_slider2, v_slider2, blur_slider, erode_slider;
+	int h_max = 180; //max hue
+	int s_max = 255; //max saturation
+	int v_max = 255; //max value/brightness
+	int min = 0;
+	JTextField textField;
+	JTextArea console;
+	ChangeListener listener;
+	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	int screenWidth = (int)screenSize.getWidth();
+	int screenHeight = (int)screenSize.getHeight();
+	JButton button;
+	Processor proc;
 	int counter = 0;
+	MouseListener mouselistener;
 
 	public Setup() {
 		//loads opencv library
@@ -63,8 +64,8 @@ public class Setup {
 		try {UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());} 
 		catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {e.printStackTrace();}
 		liveFrame = new JFrame("Live Feed");
-		binFrame = new JFrame("Threshold");
-		sliderFrame = new JFrame("Slider");
+		binFrame = new JFrame("Ball");
+		sliderFrame = new JFrame("Ball");
 		consoleFrame = new JFrame("Console");
 		//a bunch o' panels
 		livePanel = new Panel();
@@ -72,33 +73,32 @@ public class Setup {
 		sliderPanel = new JPanel();
 		consolePanel = new JPanel();
 		//initializing slider values (orange)
-		h_slider = new JSlider(min, h_max, 0);
-		s_slider = new JSlider(min, s_max, 150);
-		v_slider = new JSlider(min, v_max, 75);
+		h_slider1 = new JSlider(min, h_max, 0);
+		s_slider1 = new JSlider(min, s_max, 150);
+		v_slider1 = new JSlider(min, v_max, 75);
 		h_slider2 = new JSlider(min, h_max, 180);
-		s_slider2 = new JSlider(min, s_max, 192);
+		s_slider2 = new JSlider(min, s_max, 255);
 		v_slider2 = new JSlider(min, v_max, 255);
-		blur_slider = new JSlider(1, 50, 10);
-		erode_slider = new JSlider(min, 20, 5);
 		//textbox with value of HSV sliders
 		textField = new JTextField();
 		console = new JTextArea(18,40);
 		//button that saves the HSV values into a text file
-		button = new JButton("STAHHHHP");
+		button = new JButton("STOP");
+		mouselistener = new MouseListener();
 		//load webcam
 		loadWebcam();
 		//set up each window
-		setFrame(liveFrame, livePanel, screenWidth/2-videoWidth,0, videoWidth+30, videoHeight+60, false);
-		setFrame(binFrame, binPanel, screenWidth/2, 0, videoWidth+30, videoHeight+60, false);
-		setFrame(sliderFrame, sliderPanel,(int)(screenWidth*0.05),screenHeight/2,1500,500, false);
-		setFrame(consoleFrame, consolePanel,0,0,600,600, true);
+		setFrame(consoleFrame, consolePanel,1250,0,700,700, true, false);
+		setFrame(liveFrame, livePanel, 0,0, videoWidth+30, videoHeight+60, false, true);
+		setFrame(binFrame, binPanel, videoWidth, 0, videoWidth+30, videoHeight+60, false, false);
+		setFrame(sliderFrame, sliderPanel,(int)(screenWidth*0.05),(int)(screenHeight/1.8),800,400, false, false);
 		//set up specifically for window with sliders
-		setSlider(sliderFrame, sliderPanel, textField);
+		setSlider(sliderPanel, sliderFrame, h_slider1, s_slider1, v_slider1, h_slider2, s_slider2, v_slider2);
 		//start class does that all the processing
-		proc = new ColorProcessor(webcam, run, livePanel, binPanel, h_slider, s_slider, v_slider, h_slider2, s_slider2, v_slider2, blur_slider, erode_slider);
+		proc = new Processor(webcam, run, livePanel, binPanel, h_slider1,s_slider1,v_slider1, h_slider2,s_slider2,v_slider2, mouselistener);
 	}
 
-	public void setFrame(JFrame frame, JPanel panel, int x, int y, int width, int height, boolean slide) {
+	public void setFrame(JFrame frame, JPanel panel, int x, int y, int width, int height, boolean slide, boolean mouse) {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //x = close
 		frame.setBounds(x, y, width, height); //size + position
 		frame.setContentPane(panel); //add panel
@@ -113,6 +113,7 @@ public class Setup {
 				System.exit(0);
 			}
 		});
+		if(mouse) panel.addMouseListener(mouselistener);
 		if(slide) { 
 			console.setEditable(false);
 			console.setFont(new Font("Serif", 5, 20));
@@ -135,46 +136,42 @@ public class Setup {
 		}
 	}
 
-	public void setSlider(JFrame frame, JPanel panel1, JTextField textField) {
+	public void setSlider(JPanel panel, JFrame frame, JSlider h_slider1, JSlider s_slider1, JSlider v_slider1, JSlider h_slider2, JSlider s_slider2, JSlider v_slider2) {
 		//sets up position and value of the sliders
 		frame.setLayout(new GridLayout(0,2));
-		h_slider.setPaintTicks(true);
-		h_slider.setMajorTickSpacing(h_max);
-		addSlider(h_slider, "Hmin");
+
+		h_slider1.setPaintTicks(true);
+		h_slider1.setMajorTickSpacing(h_max);
+		addSlider(panel, h_slider1, "Hmin");
 
 		h_slider2.setPaintTicks(true);
 		h_slider2.setMajorTickSpacing(h_max);
-		addSlider(h_slider2, "Hmax");
+		addSlider(panel, h_slider2, "Hmax");
 
-		s_slider.setPaintTicks(true);
-		s_slider.setMajorTickSpacing(s_max);
-		addSlider(s_slider, "Smin");
+		s_slider1.setPaintTicks(true);
+		s_slider1.setMajorTickSpacing(s_max);
+		addSlider(panel, s_slider1, "Smin");
 
 		s_slider2.setPaintTicks(true);
 		s_slider2.setMajorTickSpacing(s_max);
-		addSlider(s_slider2, "Smax");
+		addSlider(panel, s_slider2, "Smax");
 
-		v_slider.setPaintTicks(true);
-		v_slider.setMajorTickSpacing(v_max);
-		addSlider(v_slider, "Vmin");
+		v_slider1.setPaintTicks(true);
+		v_slider1.setMajorTickSpacing(v_max);
+		addSlider(panel, v_slider1, "Vmin");
 
 		v_slider2.setPaintTicks(true);
 		v_slider2.setMajorTickSpacing(v_max);
-		addSlider(v_slider2, "Vmax");
-
-		blur_slider.setPaintTicks(true);
-		blur_slider.setMajorTickSpacing(50);
-		addSlider(blur_slider, "Blur");
-
-		erode_slider.setPaintTicks(true);
-		erode_slider.setMajorTickSpacing(20);
-		addSlider(erode_slider, "Erode");
+		addSlider(panel, v_slider2, "Vmax");
 	}
 
-	public void addSlider(JSlider slider, String description) {
+	public void addSlider(JPanel sliderPanel, JSlider slider, String description) {
+		slider.setVisible(true);
 		JTextField textField = new JTextField();
 		JPanel panel = new JPanel();
 		JLabel desc = new JLabel(description);
+		slider.setName(description);
+		//		System.out.println(slider.getName());
 
 		listener = new ChangeListener(){ // common listener for all sliders
 			public void stateChanged(ChangeEvent event){
@@ -182,7 +179,7 @@ public class Setup {
 				textField.setText("" + source.getValue());
 			}
 		}; //this block must be after the local declaration of textField but before panel adds textField
-		
+
 		slider.addChangeListener(listener);
 		desc.setFont(new Font("SansSerif", Font.BOLD, 20));	
 		textField.setColumns(3);
@@ -214,7 +211,7 @@ public class Setup {
 		return run;
 	}
 
-	public ColorProcessor getProc() {
+	public Processor getProc() {
 		return proc;
 	}
 
