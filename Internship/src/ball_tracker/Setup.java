@@ -3,12 +3,9 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -32,112 +29,92 @@ import org.opencv.videoio.Videoio;
  * something is altered on the frame (a slider is moved, or button is pressed)
  */
 public class Setup {
-	int camNum = 0;
-	JFrame liveFrame, binFrame, sliderFrame, consoleFrame;
-	Panel livePanel, binPanel;
-	JPanel sliderPanel, consolePanel;
-	VideoCapture webcam;
-	int videoWidth, videoHeight;
-	boolean run = true;
-	public JSlider h_slider1, s_slider1, v_slider1, h_slider2, s_slider2, v_slider2, blur_slider, erode_slider;
-	int h_max = 180; //max hue
-	int s_max = 255; //max saturation
-	int v_max = 255; //max value/brightness
-	int min = 0;
-	JTextField textField;
-	JTextArea console;
-	ChangeListener listener;
+	private int camNum = 0;
+	private JFrame liveFrame, binFrame, sliderFrame, consoleFrame;
+	private Panel livePanel, binPanel;
+	private JPanel sliderPanel, consolePanel;
+	private VideoCapture webcam;
+	private int videoWidth, videoHeight;
+	private boolean run = true;
+	private JSlider h_slider1, s_slider1, v_slider1, h_slider2, s_slider2, v_slider2;
+	private int h_max = 180; // Max hue
+	private int s_max = 255; // Max saturation
+	private int v_max = 255; // Max value/brightness
+	private int min = 0;
+	private JTextArea console;
+	private ChangeListener listener;
+	private Processor proc;
+	private MouseListener mouselistener;
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	int screenWidth = (int)screenSize.getWidth();
 	int screenHeight = (int)screenSize.getHeight();
-	JButton button;
-	Processor proc;
-	int counter = 0;
-	MouseListener mouselistener;
 
 	public Setup() {
-		//loads opencv library
+		// Load OpenCV library
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME); 
-		//a bunch o' frames
+		// JFrames
 		System.setProperty("apple.laf.useScreenMenuBar", "true");
 		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "WikiTeX");
 		try {UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());} 
 		catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {e.printStackTrace();}
-		liveFrame = new JFrame("Live Feed");
-		binFrame = new JFrame("Ball");
-		sliderFrame = new JFrame("Ball");
+		liveFrame = new JFrame("Source");
+		binFrame = new JFrame("Binary");
+		sliderFrame = new JFrame("Sliders");
 		consoleFrame = new JFrame("Console");
-		//a bunch o' panels
+		// JPanels
 		livePanel = new Panel();
 		binPanel = new Panel();
 		sliderPanel = new JPanel();
 		consolePanel = new JPanel();
-		//initializing slider values (orange)
+		// Initial slider values (orange)
 		h_slider1 = new JSlider(min, h_max, 0);
 		s_slider1 = new JSlider(min, s_max, 150);
 		v_slider1 = new JSlider(min, v_max, 75);
 		h_slider2 = new JSlider(min, h_max, 180);
 		s_slider2 = new JSlider(min, s_max, 255);
 		v_slider2 = new JSlider(min, v_max, 255);
-		//textbox with value of HSV sliders
-		textField = new JTextField();
-		console = new JTextArea(18,40);
-		//button that saves the HSV values into a text file
-		button = new JButton("STOP");
+		// Text box with value of HSV sliders
+		console = new JTextArea(17,40);
 		mouselistener = new MouseListener();
-		//load webcam
+		// Set up webcam
 		loadWebcam();
-		//set up each window
-		setFrame(consoleFrame, consolePanel,1250,0,700,700, true, false);
-		setFrame(liveFrame, livePanel, 0,0, videoWidth+30, videoHeight+60, false, true);
-		setFrame(binFrame, binPanel, videoWidth, 0, videoWidth+30, videoHeight+60, false, false);
-		setFrame(sliderFrame, sliderPanel,(int)(screenWidth*0.05),(int)(screenHeight/1.8),800,400, false, false);
-		//set up specifically for window with sliders
+		// Set up each JFrame with the correct settings
+		setFrame(liveFrame, livePanel, 0,screenHeight/2 - 20, videoWidth+30, videoHeight+60, false, true, true);
+		setFrame(binFrame, binPanel, videoWidth, screenHeight/2 - 20, videoWidth+30, videoHeight+60, false, false, true);
+		setFrame(consoleFrame, consolePanel,1250,screenHeight/2 - 20,videoWidth+30,videoHeight+60, true, false, true);
+		// Set up specifically for slider window
+		setFrame(sliderFrame, sliderPanel,(int)(screenWidth*0.05),(int)(screenHeight/1.8),800,400, false, false, false);
 		setSlider(sliderPanel, sliderFrame, h_slider1, s_slider1, v_slider1, h_slider2, s_slider2, v_slider2);
-		//start class does that all the processing
+		// Start processing once all windows are set up
 		proc = new Processor(webcam, run, livePanel, binPanel, h_slider1,s_slider1,v_slider1, h_slider2,s_slider2,v_slider2, mouselistener);
 	}
 
-	public void setFrame(JFrame frame, JPanel panel, int x, int y, int width, int height, boolean slide, boolean mouse) {
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //x = close
-		frame.setBounds(x, y, width, height); //size + position
-		frame.setContentPane(panel); //add panel
-		//		frame.setResizable(false);
-		frame.setVisible(true);
-		frame.addWindowListener(new WindowAdapter() { //what happens when window closes
+	public void setFrame(JFrame frame, JPanel panel, int x, int y, int width, int height, boolean isConsole, boolean hasMouse, boolean isVisible) {
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // x = close
+		frame.setBounds(x, y, width, height); // Size + position
+		frame.setContentPane(panel);
+		frame.addWindowListener(new WindowAdapter() { // When window closes...
 			public void windowClosing(WindowEvent e) {
 				console.append("Exiting..");
-				run = false; //stops the loop in SpeedSender
-				webcam.release(); //exit webcam
+				run = false; // Stop loop
+				webcam.release();
 				e.getWindow().dispose();
 				System.exit(0);
 			}
 		});
-		if(mouse) panel.addMouseListener(mouselistener);
-		if(slide) { 
-			console.setEditable(false);
-			console.setFont(new Font("Serif", 5, 20));
+		if(isVisible) frame.setVisible(true);
+		if(hasMouse) panel.addMouseListener(mouselistener);
+		if(isConsole) { 
+			console.setEditable(false); console.setFont(new Font("Serif", 5, 20));
 			DefaultCaret caret = (DefaultCaret)console.getCaret();
 			caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-			JScrollPane scrollPane = new JScrollPane (console);
-			//don't mind this
-			button.setVisible(true);
-			button.setPreferredSize(new Dimension(200,30));
-			button.addActionListener(new ActionListener() { 
-				public void actionPerformed(ActionEvent e) {
-					console.append("Exiting..");
-					run = false; //stops the loop in SpeedSender
-					webcam.release(); //exit webcam
-					System.exit(0);
-				}
-			});
+			JScrollPane scrollPane = new JScrollPane(console);
 			panel.add(scrollPane);
-			panel.add(button);
 		}
 	}
 
 	public void setSlider(JPanel panel, JFrame frame, JSlider h_slider1, JSlider s_slider1, JSlider v_slider1, JSlider h_slider2, JSlider s_slider2, JSlider v_slider2) {
-		//sets up position and value of the sliders
+		// Set up position and value of the sliders
 		frame.setLayout(new GridLayout(0,2));
 
 		h_slider1.setPaintTicks(true);
@@ -171,7 +148,6 @@ public class Setup {
 		JPanel panel = new JPanel();
 		JLabel desc = new JLabel(description);
 		slider.setName(description);
-		//		System.out.println(slider.getName());
 
 		listener = new ChangeListener(){ // common listener for all sliders
 			public void stateChanged(ChangeEvent event){
@@ -193,7 +169,7 @@ public class Setup {
 
 	public void loadWebcam() {
 		webcam = new VideoCapture();
-		webcam.open(camNum); //turn on the webcam 
+		webcam.open(camNum);
 		//		webcam.set(Videoio.CV_CAP_PROP_FRAME_WIDTH, 800); //set resolution of webcam
 		//		webcam.set(Videoio.CV_CAP_PROP_FRAME_HEIGHT, 600);
 		videoWidth = (int)webcam.get(Videoio.CV_CAP_PROP_FRAME_WIDTH);
