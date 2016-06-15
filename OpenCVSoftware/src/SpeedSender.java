@@ -1,4 +1,3 @@
-package ball_tracker;
 
 import java.io.IOException;
 import java.io.PrintWriter;

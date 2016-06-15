@@ -1,4 +1,3 @@
-package ball_tracker;
 
 import java.awt.event.MouseEvent;
 
