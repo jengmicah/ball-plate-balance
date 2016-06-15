@@ -6,21 +6,24 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 /*
- * This sends packets of data with the x-coordinate of the object being tracked to the indicated server port, which
+ * This sends packets with the x-y coordinates (in inches) of the object being tracked to the indicated server port, which
  * is intended to be a userInput into SystemModeler
  * 
  * "C:\Program Files\Java\jre1.8.0_91\bin\javaw.exe" -Djava.library.path=C:\lib\opencv\build\java;C:\lib\opencv\build\java\x64;C:\lib\opencv\build\java\x64 -Dfile.encoding=Cp1252 -classpath C:\Projects\Arturo\Internship\bin;C:\lib\opencv\build\java\opencv-310.jar ball_tracker.SpeedSender 127.0.0.1 56953
  */
 
 public class SpeedSender {
-	//comment out this main method to communicate with SysMo
+	// Comment out this main method to communicate with SysMo
 		public static void main(String[] args){
-			Setup f = new Setup(); //begins ColorFiltering
+			/*
+			 * This main method runs without sending data over a network (used for testing purposes)
+			 */
+			Setup f = new Setup(); // Set up the windows and run Processor as well
 			double[] userInput = new double[2];
-			while(f.isRun() && f.getWebcam().isOpened() && f.getProc() != null){ //while the windows and webcam are open
-				userInput = f.getProc().process();	//run the color filtering method in ColorProcessor
+			while(f.isRun() && f.getWebcam().isOpened() && f.getProc() != null){ // While the windows and webcam are open
+				userInput = f.getProc().process();
 				if(f.getProc().getFoundBall()) {
-					f.getConsole().append("[" + userInput[0] + ", " + userInput[1] + "]\n");
+					f.getConsole().append("x: " + (float)userInput[0] + "     y: " + (float)userInput[1] + "\n");
 				}
 			}			
 		}
@@ -55,7 +58,7 @@ public class SpeedSender {
 //					command = hexToASCII(hexString)+ tcppackage; // Socket client sends data to server in ASCII codes
 //					out.print(command); // Send data to server
 //					out.flush(); // Make sure all data is sent (sends out all data in buffer)
-//					f.getConsole().append("x-coordinate: " + userInput[0]);
+//					f.getConsole().append("x: " + (float)userInput[0]);
 //
 //					/*
 //					 * Send ball y coordinate
@@ -65,9 +68,9 @@ public class SpeedSender {
 //					command = hexToASCII(hexString)+ tcppackage;
 //					out.print(command);
 //					out.flush();
-//					f.getConsole().append("     y-coordinate: " + userInput[1] + "\n");
+//					f.getConsole().append("     y: " + (float)userInput[1] + "\n");
 //
-//					Thread.sleep(50);
+//					Thread.sleep(10);
 //				}
 //			}
 //			out.close();
@@ -92,21 +95,3 @@ public class SpeedSender {
 		return output.toString();
 	}
 }
-
-//BufferedReader in = new BufferedReader(new InputStreamReader(echoSocket.getInputStream()));
-//BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))
-//char[] buf = new char[255];
-//String response;
-//System.out.println(userInput[0]);
-//tcppackage = "setInputValues({\"userInput\", " + userInput[0] + "})";
-//hexString = String.format("01030000%02X000000", tcppackage.length());
-//System.out.println(hexString);
-//command = hexToASCII(hexString)+ tcppackage;
-//System.out.println("hex String: "+ hexString+"|");
-//System.out.println("Ascii String: " + command+"|");
-//out.print(command);
-//out.flush();
-//buf = new char[255];
-//in.read(buf,0,255);
-//response = new String(buf);
-//System.out.println("received: " + response );

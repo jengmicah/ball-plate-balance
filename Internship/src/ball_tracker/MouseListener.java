@@ -16,7 +16,7 @@ public class MouseListener extends MouseInputAdapter {
 	boolean pointAdded = false; // Shows if 1 point has been initialized
 
 	public void mousePressed(MouseEvent e) {
-		if(!pointsSet) { // Are all 4 points initialized?
+		if(!pointsSet) { // Check if all 4 points initialized
 			x = e.getX()-10; // Set the x and y coordinates equal to the x-y coordinate of the mouse cursor
 			y = e.getY()-10; // The -10 confirms at the point is at the tip of the cursor
 			pointAdded = true; // 1 point has been added
