@@ -1,5 +1,5 @@
-# Arturo
-AC Kinetics Interns 2k16
+# BallPlateBalance
+AC Kinetics Interns 2016
 
 Ball Plate Balancing System
 
