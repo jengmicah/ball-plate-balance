@@ -24,7 +24,7 @@ import org.opencv.videoio.VideoCapture;
 import org.opencv.videoio.Videoio;
 
 /*
- * This class just sets up the frames. The control flow of the program references this class only if
+ * This class just sets up the frames. The control flow of the program goes to this class only if
  * something is altered on the frame (a slider is moved, or button is pressed)
  */
 public class Setup {
@@ -169,8 +169,8 @@ public class Setup {
 	public void loadWebcam() {
 		webcam = new VideoCapture();
 		webcam.open(camNum);
-		//		webcam.set(Videoio.CV_CAP_PROP_FRAME_WIDTH, 800); //set resolution of webcam
-		//		webcam.set(Videoio.CV_CAP_PROP_FRAME_HEIGHT, 600);
+		webcam.set(Videoio.CV_CAP_PROP_FRAME_WIDTH, 640); //set resolution of webcam
+		webcam.set(Videoio.CV_CAP_PROP_FRAME_HEIGHT, 480);
 		videoWidth = (int)webcam.get(Videoio.CV_CAP_PROP_FRAME_WIDTH);
 		videoHeight = (int)webcam.get(Videoio.CV_CAP_PROP_FRAME_HEIGHT);
 		if(webcam.isOpened()) { System.out.println("Found webcam: " + webcam.toString()); } //check if webcam has been turned on

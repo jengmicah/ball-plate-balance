@@ -212,7 +212,7 @@ package FINAL
     Modelica.Blocks.Continuous.LimPID Z_PID1(controllerType = Modelica.Blocks.Types.SimpleController.PID, Td = 0.4, k = 0.05, yMax = 0.15, Ti = 1) annotation(Placement(visible = true, transformation(origin = {-44.906, 28.791}, extent = {{-10, 10}, {10, -10}}, rotation = 0)));
     Modelica.Blocks.Continuous.LimPID X_PID(controllerType = Modelica.Blocks.Types.SimpleController.PID, Td = 0.4, k = 0.05, yMax = 0.15, Ti = 1) annotation(Placement(visible = true, transformation(origin = {-45, -8.283}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
     Modelica.Blocks.Sources.Ramp ramp(offset = 0, duration = 5, height = 0) annotation(Placement(visible = true, transformation(origin = {-115, 32.026}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-    Modelica.Blocks.Sources.Ramp ramp1(startTime = 7.5, offset = -2, duration = 5, height = 0) annotation(Placement(visible = true, transformation(origin = {-115, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Sources.Ramp ramp1(startTime = 7.5, offset = 0, duration = 5, height = 0) annotation(Placement(visible = true, transformation(origin = {-115, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   equation
     connect(X_PID.u_s, ramp1.y) annotation(Line(visible = true, origin = {-90.75, -9.142}, points = {{33.75, 0.859}, {-10.25, 0.859}, {-10.25, -0.858}, {-13.25, -0.858}}, color = {0, 0, 127}));
     connect(ramp.y, Z_PID1.u_s) annotation(Line(visible = true, origin = {-70.18, 30.409}, points = {{-33.821, 1.618}, {10.274, 1.618}, {10.274, -1.618}, {13.274, -1.618}}, color = {0, 0, 127}));

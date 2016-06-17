@@ -4,7 +4,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.event.MouseInputAdapter;
 
 /*
- * This class is only used for the initialization stage.
+ * This class is only used for the initialization stage for the perspective transformation.
  * The user will input 4 points (the corner points of the object to be transformed)
  * This MouseListener class is what receives and sets the x and y coordinates.
  */
